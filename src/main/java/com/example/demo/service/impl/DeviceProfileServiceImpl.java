@@ -26,8 +26,9 @@ public class DeviceProfileServiceImpl implements DeviceProfileService {
         return repo.findByDeviceId(id);
     }
 
+    // EXACT MATCH with interface
     @Override
-    public DeviceProfile updateTrustStatus(Long id, boolean trust) {
+    public DeviceProfile updateTrustStatus(Long id, Boolean trust) {
         DeviceProfile d = repo.findById(id).orElse(null);
         d.setIsTrusted(trust);
         return repo.save(d);
