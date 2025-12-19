@@ -1,5 +1,8 @@
 package com.example.demo.repository;
 
-public class PolicyRuleRepository {
-    
+import org.hibernate.boot.models.JpaAnnotations;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface PolicyRuleRepository extends JpaAnnotations{
+
 }

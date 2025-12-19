@@ -1,5 +1,9 @@
 package com.example.demo.repository;
 
-public class UserAccountRepository {
+import org.hibernate.boot.models.JpaAnnotations;
+import org.springframework.stereotype.Repository;
+@Repository
+public interface UserAccountRepository extends JpaAnnotations{
+
     
 }
