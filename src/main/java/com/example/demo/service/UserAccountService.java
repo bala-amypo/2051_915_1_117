@@ -1,73 +1,21 @@
-package com.example.demo.service.impl;
+package com.example.demo.service;
 
 import com.example.demo.entity.UserAccount;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.repository.UserAccountRepository;
-import com.example.demo.service.UserAccountService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class UserAccountServiceImpl implements UserAccountService {
+public interface UserAccountService{
 
-    private final UserAccountRepository userRepo;
-    private final PasswordEncoder passwordEncoder;
+    UserAccount createUser(UserAccount user);
 
-    public UserAccountServiceImpl(UserAccountRepository userRepo,
-                                  PasswordEncoder passwordEncoder) {
-        this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
-    }
+    UserAccount getUserById(Long id);
 
-    @Override
-    public UserAccount createUser(UserAccount user) {
+    UserAccount updateUserStatus(Long id, String status);
 
-        if (userRepo.findByUsername(user.getUsername()).isPresent()) {
-            throw new IllegalArgumentException("Username already exists");
-        }
+    List<UserAccount> getAllUsers();
 
-        if (userRepo.findByEmail(user.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already exists");
-        }
+    Optional<UserAccount> findByUsername(String username);
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        if (user.getRole() == null) {
-            user.setRole("USER");
-        }
-
-        return userRepo.save(user);
-    }
-
-    @Override
-    public UserAccount getUserById(Long id) {
-        return userRepo.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-    }
-
-    @Override
-    public UserAccount updateUserStatus(Long id, String status) {
-        UserAccount user = getUserById(id);
-        user.setStatus(status);
-        return userRepo.save(user);
-    }
-
-    @Override
-    public List<UserAccount> getAllUsers() {
-        return userRepo.findAll();
-    }
-
-    @Override
-    public Optional<UserAccount> findByUsername(String username) {
-        return userRepo.findByUsername(username);
-    }
-
-    @Override
-    public Optional<UserAccount> findByUsernameOrEmail(String value) {
-        return userRepo.findByUsername(value)
-                .or(() -> userRepo.findByEmail(value));
-    }
+    Optional<UserAccount> findByUsernameOrEmail(String value);
 }
