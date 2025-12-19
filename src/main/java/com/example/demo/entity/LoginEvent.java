@@ -12,17 +12,11 @@ public class LoginEvent {
 
     private Long userId;
     private String ipAddress;
-    private String location;
-    private String deviceId;
     private String loginStatus;
     private LocalDateTime timestamp;
 
-    @PrePersist
-    public void onCreate() {
-        if (timestamp == null) timestamp = LocalDateTime.now();
-    }
+    public LoginEvent() {}
 
-    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -31,12 +25,6 @@ public class LoginEvent {
 
     public String getIpAddress() { return ipAddress; }
     public void setIpAddress(String ipAddress) { this.ipAddress = ipAddress; }
-
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
-
-    public String getDeviceId() { return deviceId; }
-    public void setDeviceId(String deviceId) { this.deviceId = deviceId; }
 
     public String getLoginStatus() { return loginStatus; }
     public void setLoginStatus(String loginStatus) { this.loginStatus = loginStatus; }
