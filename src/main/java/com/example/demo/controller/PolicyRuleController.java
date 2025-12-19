@@ -17,6 +17,11 @@ public class PolicyRuleController {
         this.service = service;
     }
 
+    @PostMapping
+    public ResponseEntity<PolicyRule> create(@RequestBody PolicyRule rule) {
+        return ResponseEntity.ok(service.createRule(rule));
+    }
+
     @GetMapping
     public ResponseEntity<List<PolicyRule>> all() {
         return ResponseEntity.ok(service.getAllRules());

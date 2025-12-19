@@ -18,7 +18,7 @@ public class LoginEventController {
     }
 
     @PostMapping
-    public ResponseEntity<LoginEvent> record(@RequestBody LoginEvent event) {
+    public ResponseEntity<LoginEvent> log(@RequestBody LoginEvent event) {
         return ResponseEntity.ok(service.recordLogin(event));
     }
 
@@ -27,7 +27,7 @@ public class LoginEventController {
         return ResponseEntity.ok(service.getEventsByUser(userId));
     }
 
-    @GetMapping("/user/{userId}/suspicious")
+    @GetMapping("/user/{userId}/failed")
     public ResponseEntity<List<LoginEvent>> suspicious(@PathVariable Long userId) {
         return ResponseEntity.ok(service.getSuspiciousLogins(userId));
     }
