@@ -19,10 +19,9 @@ public class RuleEvaluationUtil {
 
     public void evaluateLoginEvent(LoginEvent event) {
         for (PolicyRule rule : ruleRepo.findByActiveTrue()) {
-            if (rule.getActive() != null && rule.getActive()
-                && rule.getConditionsJson() != null
-                && event.getLoginStatus() != null
-                && rule.getConditionsJson().contains(event.getLoginStatus())) {
+            if (rule.getConditionsJson() != null &&
+                event.getLoginStatus() != null &&
+                rule.getConditionsJson().contains(event.getLoginStatus())) {
 
                 ViolationRecord v = new ViolationRecord();
                 v.setSeverity(rule.getSeverity());

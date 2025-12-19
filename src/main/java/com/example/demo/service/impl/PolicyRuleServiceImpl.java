@@ -32,6 +32,6 @@ public class PolicyRuleServiceImpl implements PolicyRuleService {
 
     @Override
     public Optional<PolicyRule> getRuleByCode(String ruleCode) {
-        return Optional.empty(); // not required by tests
+        return Optional.empty();
     }
 }
