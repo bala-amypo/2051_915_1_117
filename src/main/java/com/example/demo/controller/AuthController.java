@@ -1,6 +1,8 @@
 package com.example.demo.controller;
-
+@RestController
 public class AuthController {
-    @PostMapping("/post")
-    
+      @Autowired
+      DeviceProfileService stdrepo
+      @PostMaping("/post")
+      public  
 }
