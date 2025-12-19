@@ -4,7 +4,7 @@ import com.example.demo.entity.ViolationRecord;
 
 import java.util.List;
 
-public interface ViolationRecordService {
+public interface ViolationRecordServiceI{
 
     ViolationRecord logViolation(ViolationRecord violation);
 

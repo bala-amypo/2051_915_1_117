@@ -5,7 +5,7 @@ import com.example.demo.entity.UserAccount;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserAccountService {
+public interface UserAccountService{
 
     UserAccount createUser(UserAccount user);
 

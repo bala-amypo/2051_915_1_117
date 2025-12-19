@@ -5,7 +5,7 @@ import com.example.demo.entity.PolicyRule;
 import java.util.List;
 import java.util.Optional;
 
-public interface PolicyRuleService {
+public interface PolicyRuleService{
 
     PolicyRule createRule(PolicyRule rule);
 
