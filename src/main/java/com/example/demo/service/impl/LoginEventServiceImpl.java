@@ -12,18 +12,18 @@ import java.util.List;
 public class LoginEventServiceImpl implements LoginEventService {
 
     private final LoginEventRepository repo;
-    private final RuleEvaluationUtil ruleEvaluator;
+    private final RuleEvaluationUtil evaluator;
 
     public LoginEventServiceImpl(LoginEventRepository repo,
-                                 RuleEvaluationUtil ruleEvaluator) {
+                                 RuleEvaluationUtil evaluator) {
         this.repo = repo;
-        this.ruleEvaluator = ruleEvaluator;
+        this.evaluator = evaluator;
     }
 
     @Override
     public LoginEvent recordLogin(LoginEvent event) {
         LoginEvent saved = repo.save(event);
-        ruleEvaluator.evaluateLoginEvent(saved);
+        evaluator.evaluateLoginEvent(saved);
         return saved;
     }
 

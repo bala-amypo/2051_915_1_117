@@ -17,20 +17,22 @@ public class DeviceProfileServiceImpl implements DeviceProfileService {
     }
 
     @Override
-    public DeviceProfile registerDevice(DeviceProfile d) {
-        return repo.save(d);
+    public DeviceProfile registerDevice(DeviceProfile device) {
+        return repo.save(device);
     }
 
     @Override
-    public Optional<DeviceProfile> findByDeviceId(String id) {
-        return repo.findByDeviceId(id);
+    public Optional<DeviceProfile> findByDeviceId(String deviceId) {
+        return repo.findByDeviceId(deviceId);
     }
 
-    // EXACT MATCH with interface
     @Override
-    public DeviceProfile updateTrustStatus(Long id, Boolean trust) {
+    public DeviceProfile updateTrustStatus(Long id, Boolean trusted) {
         DeviceProfile d = repo.findById(id).orElse(null);
-        d.setIsTrusted(trust);
-        return repo.save(d);
+        if (d != null) {
+            d.setIsTrusted(trusted);
+            return repo.save(d);
+        }
+        return null;
     }
 }

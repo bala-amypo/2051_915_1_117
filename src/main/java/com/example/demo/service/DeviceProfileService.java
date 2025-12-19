@@ -5,10 +5,9 @@ import java.util.Optional;
 
 public interface DeviceProfileService {
 
-    DeviceProfile registerDevice(DeviceProfile d);
+    DeviceProfile registerDevice(DeviceProfile device);
 
-    Optional<DeviceProfile> findByDeviceId(String id);
+    Optional<DeviceProfile> findByDeviceId(String deviceId);
 
-    // IMPORTANT: Boolean (wrapper), not boolean
-    DeviceProfile updateTrustStatus(Long id, Boolean trust);
+    DeviceProfile updateTrustStatus(Long id, Boolean trusted);
 }
