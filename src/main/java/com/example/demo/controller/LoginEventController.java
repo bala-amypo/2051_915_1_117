@@ -1,5 +1,65 @@
-package com.example.demo.controller;
+package com.example.demo.entity;
 
-public class LoginEventController {
-    
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "login_events")
+public class LoginEvent {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private Long userId;
+
+    private String ipAddress;
+
+    private String location;
+
+    private String deviceId;
+
+    private LocalDateTime timestamp;
+
+    private String loginStatus;
+
+    public LoginEvent() {}
+
+    public LoginEvent(Long userId, String ipAddress, String location,
+                      String deviceId, String loginStatus) {
+        this.userId = userId;
+        this.ipAddress = ipAddress;
+        this.location = location;
+        this.deviceId = deviceId;
+        this.loginStatus = loginStatus;
+    }
+
+    @PrePersist
+    public void onCreate() {
+        if (this.timestamp == null) {
+            this.timestamp = LocalDateTime.now();
+        }
+    }
+
+    /* Getters and Setters */
+
+    public Long getId() { return id; }
+
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
+
+    public String getIpAddress() { return ipAddress; }
+    public void setIpAddress(String ipAddress) { this.ipAddress = ipAddress; }
+
+    public String getLocation() { return location; }
+    public void setLocation(String location) { this.location = location; }
+
+    public String getDeviceId() { return deviceId; }
+    public void setDeviceId(String deviceId) { this.deviceId = deviceId; }
+
+    public LocalDateTime getTimestamp() { return timestamp; }
+    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+
+    public String getLoginStatus() { return loginStatus; }
+    public void setLoginStatus(String loginStatus) { this.loginStatus = loginStatus; }
 }
