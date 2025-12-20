@@ -1,5 +1,9 @@
+package com.example.demo.repository;
+
+import com.example.demo.entity.PolicyRule;
+import java.util.List;
+
 public interface PolicyRuleRepository {
-    PolicyRule save(PolicyRule r);
     List<PolicyRule> findAll();
-    List<PolicyRule> findByActiveTrue();
+    List<PolicyRule> findByRuleType(String ruleType);
 }
