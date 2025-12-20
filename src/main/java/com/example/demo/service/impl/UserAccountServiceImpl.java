@@ -5,7 +5,7 @@ import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.service.UserAccountService;
 
 import java.util.List;
-
+@Service
 public class UserAccountServiceImpl implements UserAccountService {
 
     private final UserAccountRepository userRepo;

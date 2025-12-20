@@ -6,7 +6,7 @@ import com.example.demo.service.ViolationRecordService;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class ViolationRecordServiceImpl implements ViolationRecordService {
 
     private final ViolationRecordRepository violationRepo;

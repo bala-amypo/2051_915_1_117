@@ -5,7 +5,7 @@ import com.example.demo.repository.PolicyRuleRepository;
 import com.example.demo.service.PolicyRuleService;
 
 import java.util.List;
-
+@Service
 public class PolicyRuleServiceImpl implements PolicyRuleService {
 
     private final PolicyRuleRepository ruleRepo;

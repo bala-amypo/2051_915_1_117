@@ -6,6 +6,7 @@ import com.example.demo.service.DeviceProfileService;
 
 import java.util.Optional;
 
+@Service
 public class DeviceProfileServiceImpl implements DeviceProfileService {
 
     private final DeviceProfileRepository deviceRepo;
