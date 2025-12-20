@@ -1,51 +1,60 @@
 package com.example.demo.security;
 
-import java.util.Base64;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
+
+import java.security.Key;
+import java.util.Date;
 
 public class JwtUtil {
 
-    private final String secret;
-    private final long expiration;
-    private final boolean enabled;
+    private final Key key;
+    private final long expirationMillis;
 
-    // Constructor used in tests
-    public JwtUtil(String secret, long expiration, boolean enabled) {
-        this.secret = secret;
-        this.expiration = expiration;
-        this.enabled = enabled;
+    public JwtUtil(String secret, long expirationMillis, boolean useHmac) {
+        this.key = Keys.hmacShaKeyFor(secret.getBytes());
+        this.expirationMillis = expirationMillis;
     }
 
-    // Generates a simple encoded token
     public String generateToken(String username, Long userId, String email, String role) {
-        String payload = username + "|" + userId + "|" + email + "|" + role;
-        return Base64.getEncoder().encodeToString(payload.getBytes());
+        Date now = new Date();
+        Date expiry = new Date(now.getTime() + expirationMillis);
+
+        return Jwts.builder()
+                .setSubject(username)
+                .claim("userId", userId)
+                .claim("email", email)
+                .claim("role", role)
+                .setIssuedAt(now)
+                .setExpiration(expiry)
+                .signWith(key)
+                .compact();
     }
 
-    // Validates token safely
     public boolean validateToken(String token) {
         try {
-            String decoded = new String(Base64.getDecoder().decode(token));
-            return decoded.split("\\|").length == 4;
-        } catch (Exception e) {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
-    // Extract email
     public String getEmail(String token) {
-        String decoded = new String(Base64.getDecoder().decode(token));
-        return decoded.split("\\|")[2];
+        return getClaims(token).get("email", String.class);
     }
 
-    // Extract role
     public String getRole(String token) {
-        String decoded = new String(Base64.getDecoder().decode(token));
-        return decoded.split("\\|")[3];
+        return getClaims(token).get("role", String.class);
     }
 
-    // Extract userId
     public Long getUserId(String token) {
-        String decoded = new String(Base64.getDecoder().decode(token));
-        return Long.valueOf(decoded.split("\\|")[1]);
+        return getClaims(token).get("userId", Long.class);
+    }
+
+    private Claims getClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
