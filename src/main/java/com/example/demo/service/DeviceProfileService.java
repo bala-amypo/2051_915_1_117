@@ -4,6 +4,7 @@ import com.example.demo.entity.DeviceProfile;
 
 import java.util.Optional;
 
+@Service
 public interface DeviceProfileService {
     DeviceProfile registerDevice(DeviceProfile device);
     Optional<DeviceProfile> findByDeviceId(String deviceId);

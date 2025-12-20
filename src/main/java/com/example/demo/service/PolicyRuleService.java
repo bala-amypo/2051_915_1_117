@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.PolicyRule;
 import java.util.List;
-
+@Service
 public interface PolicyRuleService {
 
     PolicyRule createRule(PolicyRule rule);

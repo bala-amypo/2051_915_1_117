@@ -2,7 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.entity.UserAccount;
 import java.util.List;
-
+@Service
 public interface UserAccountService {
 
     UserAccount createUser(UserAccount user);
