@@ -3,14 +3,13 @@ package com.example.demo.controller;
 import com.example.demo.entity.UserAccount;
 import com.example.demo.service.UserAccountService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.List;
-@RestController
+
 public class UserAccountController {
-     @Autowired
+    
     private final UserAccountService userService;
 
     public UserAccountController(UserAccountService userService) {

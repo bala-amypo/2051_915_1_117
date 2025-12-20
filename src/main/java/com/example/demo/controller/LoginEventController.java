@@ -3,14 +3,14 @@ package com.example.demo.controller;
 import com.example.demo.entity.LoginEvent;
 import com.example.demo.service.LoginEventService;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
+
 
 import java.util.List;
 
 public class LoginEventController {
-    @Autowired
+  
     private final LoginEventService loginService;
 
     public LoginEventController(LoginEventService loginService) {
