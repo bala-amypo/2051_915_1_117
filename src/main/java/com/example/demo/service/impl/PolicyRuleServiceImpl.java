@@ -1,10 +1,10 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
 import com.example.demo.entity.PolicyRule;
 import com.example.demo.repository.PolicyRuleRepository;
 import com.example.demo.service.PolicyRuleService;
+
+import java.util.List;
 
 public class PolicyRuleServiceImpl implements PolicyRuleService {
 
@@ -20,12 +20,12 @@ public class PolicyRuleServiceImpl implements PolicyRuleService {
     }
 
     @Override
-    public List<PolicyRule> getAllRules() {
-        return ruleRepo.findAll();
+    public List<PolicyRule> getActiveRules() {
+        return ruleRepo.findByActiveTrue();
     }
 
     @Override
-    public List<PolicyRule> getActiveRules() {
-        return ruleRepo.findByActiveTrue();
+    public List<PolicyRule> getAllRules() {
+        return ruleRepo.findAll();
     }
 }

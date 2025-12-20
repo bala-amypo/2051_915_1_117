@@ -1,10 +1,10 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
 import com.example.demo.entity.ViolationRecord;
 import com.example.demo.repository.ViolationRecordRepository;
 import com.example.demo.service.ViolationRecordService;
+
+import java.util.List;
 
 public class ViolationRecordServiceImpl implements ViolationRecordService {
 
@@ -26,11 +26,11 @@ public class ViolationRecordServiceImpl implements ViolationRecordService {
 
     @Override
     public ViolationRecord markResolved(Long id) {
-        ViolationRecord record = violationRepo.findById(id).orElse(null);
-        if (record != null) {
-            record.setResolved(true);
-            violationRepo.save(record);
+        ViolationRecord v = violationRepo.findById(id).orElse(null);
+        if (v != null) {
+            v.setResolved(true);
+            return violationRepo.save(v);
         }
-        return record;
+        return null;
     }
 }

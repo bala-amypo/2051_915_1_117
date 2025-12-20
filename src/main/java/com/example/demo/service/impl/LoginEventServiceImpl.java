@@ -1,27 +1,27 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
 import com.example.demo.entity.LoginEvent;
 import com.example.demo.repository.LoginEventRepository;
 import com.example.demo.service.LoginEventService;
 import com.example.demo.util.RuleEvaluationUtil;
 
+import java.util.List;
+
 public class LoginEventServiceImpl implements LoginEventService {
 
     private final LoginEventRepository loginRepo;
-    private final RuleEvaluationUtil ruleEvaluator;
+    private final RuleEvaluationUtil evaluator;
 
     public LoginEventServiceImpl(LoginEventRepository loginRepo,
-                                 RuleEvaluationUtil ruleEvaluator) {
+                                 RuleEvaluationUtil evaluator) {
         this.loginRepo = loginRepo;
-        this.ruleEvaluator = ruleEvaluator;
+        this.evaluator = evaluator;
     }
 
     @Override
     public LoginEvent recordLogin(LoginEvent event) {
         LoginEvent saved = loginRepo.save(event);
-        ruleEvaluator.evaluateLoginEvent(event);
+        evaluator.evaluateLoginEvent(saved);
         return saved;
     }
 

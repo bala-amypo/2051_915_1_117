@@ -1,10 +1,10 @@
 package com.example.demo.service.impl;
 
-import java.util.Optional;
-
 import com.example.demo.entity.DeviceProfile;
 import com.example.demo.repository.DeviceProfileRepository;
 import com.example.demo.service.DeviceProfileService;
+
+import java.util.Optional;
 
 public class DeviceProfileServiceImpl implements DeviceProfileService {
 
@@ -26,11 +26,11 @@ public class DeviceProfileServiceImpl implements DeviceProfileService {
 
     @Override
     public DeviceProfile updateTrustStatus(Long id, boolean trusted) {
-        DeviceProfile device = deviceRepo.findById(id).orElse(null);
-        if (device != null) {
-            device.setIsTrusted(trusted);
-            deviceRepo.save(device);
+        DeviceProfile d = deviceRepo.findById(id).orElse(null);
+        if (d != null) {
+            d.setIsTrusted(trusted);
+            return deviceRepo.save(d);
         }
-        return device;
+        return null;
     }
 }

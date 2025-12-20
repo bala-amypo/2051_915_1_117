@@ -1,27 +1,26 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-
 import com.example.demo.entity.UserAccount;
 import com.example.demo.repository.UserAccountRepository;
 import com.example.demo.service.UserAccountService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 public class UserAccountServiceImpl implements UserAccountService {
 
     private final UserAccountRepository userRepo;
     private final PasswordEncoder encoder;
 
-    public UserAccountServiceImpl(UserAccountRepository userRepo, PasswordEncoder encoder) {
+    public UserAccountServiceImpl(UserAccountRepository userRepo,
+                                  PasswordEncoder encoder) {
         this.userRepo = userRepo;
         this.encoder = encoder;
     }
 
     @Override
     public UserAccount createUser(UserAccount user) {
-        if (user.getPassword() != null) {
-            user.setPassword(encoder.encode(user.getPassword()));
-        }
+        user.setPassword(encoder.encode(user.getPassword()));
         return userRepo.save(user);
     }
 
@@ -32,12 +31,12 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public UserAccount updateUserStatus(Long id, String status) {
-        UserAccount user = userRepo.findById(id).orElse(null);
-        if (user != null) {
-            user.setStatus(status);
-            userRepo.save(user);
+        UserAccount u = userRepo.findById(id).orElse(null);
+        if (u != null) {
+            u.setStatus(status);
+            return userRepo.save(u);
         }
-        return user;
+        return null;
     }
 
     @Override
