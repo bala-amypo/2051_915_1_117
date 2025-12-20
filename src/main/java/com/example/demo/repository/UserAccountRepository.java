@@ -1,18 +1,29 @@
-package com.example.demo.repository;
+package com.example.demo.controller;
 
 import com.example.demo.entity.UserAccount;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.example.demo.service.UserAccountService;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Optional;
+import java.util.List;
 
-@Repository
-public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
+public class UserAccountController {
 
-    // Optional custom queries
-    Optional<UserAccount> findByUsername(String username);
-    Optional<UserAccount> findByEmail(String email);
+    private final UserAccountService userService;
 
-    boolean existsByUsername(String username);
-    boolean existsByEmail(String email);
+    public UserAccountController(UserAccountService userService) {
+        this.userService = userService;
+    }
+
+    public ResponseEntity<UserAccount> create(UserAccount user) {
+        return ResponseEntity.ok(userService.createUser(user));
+    }
+
+    public ResponseEntity<UserAccount> get(Long id) {
+        UserAccount u = userService.getUserById(id);
+        return u != null ? ResponseEntity.ok(u) : ResponseEntity.notFound().build();
+    }
+
+    public ResponseEntity<List<UserAccount>> all() {
+        return ResponseEntity.ok(userService.getAllUsers());
+    }
 }

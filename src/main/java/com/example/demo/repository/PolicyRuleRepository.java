@@ -1,11 +1,24 @@
-package com.example.demo.repository;
+package com.example.demo.controller;
 
 import com.example.demo.entity.PolicyRule;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.demo.service.PolicyRuleService;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface PolicyRuleRepository extends JpaRepository<PolicyRule, Long> {
+public class PolicyRuleController {
 
-    List<PolicyRule> findByActiveTrue();
+    private final PolicyRuleService ruleService;
+
+    public PolicyRuleController(PolicyRuleService ruleService) {
+        this.ruleService = ruleService;
+    }
+
+    public ResponseEntity<List<PolicyRule>> all() {
+        return ResponseEntity.ok(ruleService.getAllRules());
+    }
+
+    public ResponseEntity<PolicyRule> create(PolicyRule rule) {
+        return ResponseEntity.ok(ruleService.createRule(rule));
+    }
 }
