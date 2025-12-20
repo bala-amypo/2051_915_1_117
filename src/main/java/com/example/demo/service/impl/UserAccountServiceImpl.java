@@ -17,6 +17,7 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     @Override
     public UserAccount createUser(UserAccount user) {
+        // Simply save the user without password encryption
         return userRepo.save(user);
     }
 
@@ -26,18 +27,18 @@ public class UserAccountServiceImpl implements UserAccountService {
     }
 
     @Override
-    public UserAccount updateUserStatus(Long id, String status) {
-        Optional<UserAccount> opt = userRepo.findById(id);
-        if (opt.isPresent()) {
-            UserAccount u = opt.get();
-            u.setStatus(status);
-            return userRepo.save(u);
-        }
-        return null;
+    public List<UserAccount> getAllUsers() {
+        return userRepo.findAll();
     }
 
     @Override
-    public List<UserAccount> getAllUsers() {
-        return userRepo.findAll();
+    public UserAccount updateUserStatus(Long id, String status) {
+        Optional<UserAccount> opt = userRepo.findById(id);
+        if (opt.isPresent()) {
+            UserAccount user = opt.get();
+            user.setStatus(status);
+            return userRepo.save(user);
+        }
+        return null;
     }
 }
