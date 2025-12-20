@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "login_event")
 public class LoginEvent {
 
     @Id
@@ -11,14 +12,14 @@ public class LoginEvent {
     private Long id;
 
     private Long userId;
-    private String ipAddress;
-    private String loginStatus;
     private String deviceId;
+    private String ipAddress;
     private String location;
+    private String loginStatus;
 
     private LocalDateTime timestamp;
 
-    public LoginEvent() {}
+    // ===== GETTERS & SETTERS =====
 
     public Long getId() {
         return id;
@@ -36,22 +37,6 @@ public class LoginEvent {
         this.userId = userId;
     }
 
-    public String getIpAddress() {
-        return ipAddress;
-    }
-    
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public String getLoginStatus() {
-        return loginStatus;
-    }
-    
-    public void setLoginStatus(String loginStatus) {
-        this.loginStatus = loginStatus;
-    }
-
     public String getDeviceId() {
         return deviceId;
     }
@@ -60,12 +45,28 @@ public class LoginEvent {
         this.deviceId = deviceId;
     }
 
+    public String getIpAddress() {
+        return ipAddress;
+    }
+    
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
     public String getLocation() {
         return location;
     }
     
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getLoginStatus() {
+        return loginStatus;
+    }
+    
+    public void setLoginStatus(String loginStatus) {
+        this.loginStatus = loginStatus;
     }
 
     public LocalDateTime getTimestamp() {

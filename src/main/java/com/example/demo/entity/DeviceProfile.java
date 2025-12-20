@@ -4,22 +4,22 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "device_profile")
 public class DeviceProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long userId;
     private String deviceId;
     private String deviceType;
     private String osVersion;
-
     private Boolean isTrusted;
-    private Long userId;
 
     private LocalDateTime lastSeen;
 
-    public DeviceProfile() {}
+    // ===== GETTERS & SETTERS =====
 
     public Long getId() {
         return id;
@@ -27,6 +27,14 @@ public class DeviceProfile {
     
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+    
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getDeviceId() {
@@ -57,16 +65,8 @@ public class DeviceProfile {
         return isTrusted;
     }
     
-    public void setIsTrusted(Boolean isTrusted) {
-        this.isTrusted = isTrusted;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-    
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setIsTrusted(Boolean trusted) {
+        isTrusted = trusted;
     }
 
     public LocalDateTime getLastSeen() {

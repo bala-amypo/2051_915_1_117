@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "user_account")
 public class UserAccount {
 
     @Id
@@ -13,13 +14,13 @@ public class UserAccount {
     private String username;
     private String email;
     private String password;
-    private String status;
     private String role;
+    private String status;
     private String employeeId;
 
     private LocalDateTime createdAt;
 
-    public UserAccount() {}
+    // ===== GETTERS & SETTERS =====
 
     public Long getId() {
         return id;
@@ -53,20 +54,20 @@ public class UserAccount {
         this.password = password;
     }
 
-    public String getStatus() {
-        return status;
-    }
-    
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getRole() {
         return role;
     }
     
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getEmployeeId() {

@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "violation_record")
 public class ViolationRecord {
 
     @Id
@@ -11,13 +12,11 @@ public class ViolationRecord {
 
     private Long userId;
     private Long eventId;
-
     private String severity;
     private String details;
-
     private Boolean resolved;
 
-    public ViolationRecord() {}
+    // ===== GETTERS & SETTERS =====
 
     public Long getId() {
         return id;

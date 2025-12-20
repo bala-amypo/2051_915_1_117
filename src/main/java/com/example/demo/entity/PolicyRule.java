@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "policy_rule")
 public class PolicyRule {
 
     @Id
@@ -11,11 +12,11 @@ public class PolicyRule {
 
     private String ruleCode;
     private String description;
-    private String conditionsJson;
     private String severity;
+    private String conditionsJson;
     private Boolean active;
 
-    public PolicyRule() {}
+    // ===== GETTERS & SETTERS =====
 
     public Long getId() {
         return id;
@@ -41,20 +42,20 @@ public class PolicyRule {
         this.description = description;
     }
 
-    public String getConditionsJson() {
-        return conditionsJson;
-    }
-    
-    public void setConditionsJson(String conditionsJson) {
-        this.conditionsJson = conditionsJson;
-    }
-
     public String getSeverity() {
         return severity;
     }
     
     public void setSeverity(String severity) {
         this.severity = severity;
+    }
+
+    public String getConditionsJson() {
+        return conditionsJson;
+    }
+    
+    public void setConditionsJson(String conditionsJson) {
+        this.conditionsJson = conditionsJson;
     }
 
     public Boolean getActive() {
