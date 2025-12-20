@@ -3,10 +3,12 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.ViolationRecord;
 import com.example.demo.repository.ViolationRecordRepository;
 import com.example.demo.service.ViolationRecordService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ViolationRecordServiceImpl implements ViolationRecordService {
 
     private final ViolationRecordRepository violationRepo;
