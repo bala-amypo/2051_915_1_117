@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.DeviceProfile;
-
+import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
