@@ -8,6 +8,9 @@ import com.example.demo.repository.ViolationRecordRepository;
 
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class RuleEvaluationUtil {
 
     private final PolicyRuleRepository ruleRepository;
