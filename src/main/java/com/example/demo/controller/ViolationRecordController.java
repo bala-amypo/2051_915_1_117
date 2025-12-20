@@ -5,8 +5,6 @@ import com.example.demo.service.ViolationRecordService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/violations")
 public class ViolationRecordController {
@@ -22,8 +20,8 @@ public class ViolationRecordController {
         return ResponseEntity.ok(service.logViolation(record));
     }
 
-    @GetMapping("/open")
-    public ResponseEntity<List<ViolationRecord>> unresolved() {
+    @GetMapping("/unresolved")
+    public ResponseEntity<?> unresolved() {
         return ResponseEntity.ok(service.getUnresolvedViolations());
     }
 }

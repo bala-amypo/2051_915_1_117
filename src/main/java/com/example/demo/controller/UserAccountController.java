@@ -5,8 +5,6 @@ import com.example.demo.service.UserAccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/users")
 public class UserAccountController {
@@ -28,7 +26,7 @@ public class UserAccountController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserAccount>> all() {
+    public ResponseEntity<?> all() {
         return ResponseEntity.ok(service.getAllUsers());
     }
 }
