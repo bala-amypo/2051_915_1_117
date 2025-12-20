@@ -2,28 +2,37 @@ package com.example.demo.dto;
 
 import java.time.LocalDateTime;
 
-public class LoginEventDTO {
+public class LoginEventDto {
+
     private Long id;
     private Long userId;
-    private String deviceId;
-    private String ipAddress;
-    private String loginStatus;
-    private String location;
     private LocalDateTime timestamp;
+    private boolean success;
+    private String ipAddress;
 
-    // Getters & Setters
+    public LoginEventDto() {}
+
+    public LoginEventDto(Long id, Long userId, LocalDateTime timestamp, boolean success, String ipAddress) {
+        this.id = id;
+        this.userId = userId;
+        this.timestamp = timestamp;
+        this.success = success;
+        this.ipAddress = ipAddress;
+    }
+
+    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
+
     public Long getUserId() { return userId; }
     public void setUserId(Long userId) { this.userId = userId; }
-    public String getDeviceId() { return deviceId; }
-    public void setDeviceId(String deviceId) { this.deviceId = deviceId; }
-    public String getIpAddress() { return ipAddress; }
-    public void setIpAddress(String ipAddress) { this.ipAddress = ipAddress; }
-    public String getLoginStatus() { return loginStatus; }
-    public void setLoginStatus(String loginStatus) { this.loginStatus = loginStatus; }
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+
     public LocalDateTime getTimestamp() { return timestamp; }
     public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+
+    public boolean isSuccess() { return success; }
+    public void setSuccess(boolean success) { this.success = success; }
+
+    public String getIpAddress() { return ipAddress; }
+    public void setIpAddress(String ipAddress) { this.ipAddress = ipAddress; }
 }

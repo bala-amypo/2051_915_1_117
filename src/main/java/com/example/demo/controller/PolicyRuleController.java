@@ -1,24 +1,24 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import com.example.demo.entity.PolicyRule;
 import com.example.demo.service.PolicyRuleService;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-
 public class PolicyRuleController {
 
-    private final PolicyRuleService ruleService;
+    private final PolicyRuleService service;
 
-    public PolicyRuleController(PolicyRuleService ruleService) {
-        this.ruleService = ruleService;
+    public PolicyRuleController(PolicyRuleService service) {
+        this.service = service;
     }
 
     public ResponseEntity<List<PolicyRule>> all() {
-        return ResponseEntity.ok(ruleService.getAllRules());
+        return ResponseEntity.ok(service.getAllRules());
     }
 
     public ResponseEntity<PolicyRule> create(PolicyRule rule) {
-        return ResponseEntity.ok(ruleService.createRule(rule));
+        return ResponseEntity.ok(service.createRule(rule));
     }
 }
