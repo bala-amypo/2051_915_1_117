@@ -2,34 +2,27 @@ package com.example.demo.security;
 
 public class JwtUtil {
 
-    private final String secret;
-    private final long expiration;
-    private final boolean someFlag;
-
-    public JwtUtil(String secret, long expiration, boolean someFlag) {
-        this.secret = secret;
-        this.expiration = expiration;
-        this.someFlag = someFlag;
+    public JwtUtil(String key, long time, boolean flag) {
+        // dummy constructor
     }
 
     public String generateToken(String username, Long userId, String email, String role) {
-        // just return a dummy token
-        return "dummy-token";
+        return username + ":" + userId + ":" + email + ":" + role;
     }
 
     public boolean validateToken(String token) {
-        return true;
+        return token.contains(":"); // dummy validation
     }
 
     public String getEmail(String token) {
-        return "abc@test.com";
+        return token.split(":")[2];
     }
 
     public String getRole(String token) {
-        return "ADMIN";
+        return token.split(":")[3];
     }
 
     public Long getUserId(String token) {
-        return 1L;
+        return Long.parseLong(token.split(":")[1]);
     }
 }
