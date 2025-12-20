@@ -5,7 +5,7 @@ import com.example.demo.service.DeviceProfileService;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
-@
+
 public class DeviceProfileController {
 
     private final DeviceProfileService deviceService;
