@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.UserDto;
-import com.example.demo.service.UserService;
+import com.example.demo.dto.UserAccountDto;
+import com.example.demo.service.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -11,46 +11,46 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/useraccounts")
 @Validated
-public class UserController {
+public class UserAccountController {
 
     @Autowired
-    private UserService userService;
+    private UserAccountService userAccountService;
 
-    // GET all users
+    // GET all user accounts
     @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        List<UserDto> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<List<UserAccountDto>> getAllUserAccounts() {
+        List<UserAccountDto> accounts = userAccountService.getAllUserAccounts();
+        return ResponseEntity.ok(accounts);
     }
 
-    // GET user by ID
+    // GET user account by ID
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-        UserDto user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserAccountDto> getUserAccountById(@PathVariable Long id) {
+        UserAccountDto account = userAccountService.getUserAccountById(id);
+        return ResponseEntity.ok(account);
     }
 
-    // POST create a new user
+    // POST create a new user account
     @PostMapping
-    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
-        UserDto createdUser = userService.createUser(userDto);
-        return ResponseEntity.ok(createdUser);
+    public ResponseEntity<UserAccountDto> createUserAccount(@Valid @RequestBody UserAccountDto accountDto) {
+        UserAccountDto createdAccount = userAccountService.createUserAccount(accountDto);
+        return ResponseEntity.ok(createdAccount);
     }
 
-    // PUT update user by ID
+    // PUT update user account by ID
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id,
-                                              @Valid @RequestBody UserDto userDto) {
-        UserDto updatedUser = userService.updateUser(id, userDto);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<UserAccountDto> updateUserAccount(@PathVariable Long id,
+                                                            @Valid @RequestBody UserAccountDto accountDto) {
+        UserAccountDto updatedAccount = userAccountService.updateUserAccount(id, accountDto);
+        return ResponseEntity.ok(updatedAccount);
     }
 
-    // DELETE user by ID
+    // DELETE user account by ID
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    public ResponseEntity<Void> deleteUserAccount(@PathVariable Long id) {
+        userAccountService.deleteUserAccount(id);
         return ResponseEntity.noContent().build();
     }
 }
