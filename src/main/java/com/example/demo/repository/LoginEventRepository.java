@@ -1,15 +1,24 @@
-package com.example.demo.repository;
+package com.example.demo.controller;
 
 import com.example.demo.entity.LoginEvent;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.example.demo.service.LoginEventService;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-@Repository
-public interface LoginEventRepository extends JpaRepository<LoginEvent, Long> {
+public class LoginEventController {
 
-    List<LoginEvent> findByUserId(Long userId);
+    private final LoginEventService loginService;
 
-    List<LoginEvent> findByUserIdAndSuccess(Long userId, boolean success);
+    public LoginEventController(LoginEventService loginService) {
+        this.loginService = loginService;
+    }
+
+    public ResponseEntity<LoginEvent> record(LoginEvent event) {
+        return ResponseEntity.ok(loginService.recordLogin(event));
+    }
+
+    public ResponseEntity<List<LoginEvent>> eventsByUser(Long userId) {
+        return ResponseEntity.ok(loginService.getEventsByUser(userId));
+    }
 }

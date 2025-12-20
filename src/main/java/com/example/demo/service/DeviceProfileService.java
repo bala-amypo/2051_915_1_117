@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.DeviceProfile;
 import java.util.Optional;
+import com.example.demo.entity.DeviceProfile;
 
 public interface DeviceProfileService {
 

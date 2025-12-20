@@ -1,69 +1,37 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.LoginEventDto;
 import com.example.demo.entity.LoginEvent;
 import com.example.demo.repository.LoginEventRepository;
 import com.example.demo.service.LoginEventService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.demo.util.RuleEvaluationUtil;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
 public class LoginEventServiceImpl implements LoginEventService {
 
-    @Autowired
-    private LoginEventRepository loginEventRepository;
+    private final LoginEventRepository loginRepo;
+    private final RuleEvaluationUtil evaluator;
 
-    private LoginEventDto mapToDto(LoginEvent entity) {
-        return new LoginEventDto(
-                entity.getId(),
-                entity.getUserId(),
-                entity.getTimestamp(),
-                entity.isSuccess(),
-                entity.getIpAddress()
-        );
-    }
-
-    private LoginEvent mapToEntity(LoginEventDto dto) {
-        return new LoginEvent(
-                dto.getId(),
-                dto.getUserId(),
-                dto.getTimestamp(),
-                dto.isSuccess(),
-                dto.getIpAddress()
-        );
+    public LoginEventServiceImpl(LoginEventRepository loginRepo,
+                                 RuleEvaluationUtil evaluator) {
+        this.loginRepo = loginRepo;
+        this.evaluator = evaluator;
     }
 
     @Override
-    public List<LoginEventDto> getAllEvents() {
-        return loginEventRepository.findAll()
-                .stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+    public LoginEvent recordLogin(LoginEvent event) {
+        LoginEvent saved = loginRepo.save(event);
+        evaluator.evaluateLoginEvent(saved);
+        return saved;
     }
 
     @Override
-    public List<LoginEventDto> getEventsByUserId(Long userId) {
-        return loginEventRepository.findByUserId(userId)
-                .stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+    public List<LoginEvent> getEventsByUser(Long userId) {
+        return loginRepo.findByUserId(userId);
     }
 
     @Override
-    public List<LoginEventDto> getFailedEventsByUserId(Long userId) {
-        return loginEventRepository.findByUserIdAndSuccess(userId, false)
-                .stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public LoginEventDto createEvent(LoginEventDto eventDto) {
-        LoginEvent entity = mapToEntity(eventDto);
-        LoginEvent saved = loginEventRepository.save(entity);
-        return mapToDto(saved);
+    public List<LoginEvent> getSuspiciousLogins(Long userId) {
+        return loginRepo.findByUserIdAndLoginStatus(userId, "FAILED");
     }
 }
