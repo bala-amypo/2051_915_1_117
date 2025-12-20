@@ -55,12 +55,10 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Spring Security (brings spring-security-crypto with BCryptPasswordEncoder) -->
+        <!-- Spring Security for JWT + PasswordEncoder + SecurityConfig -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
-            <!-- scope test so it is only used for tests; remove scope if app also needs security -->
-            <scope>test</scope>
         </dependency>
 
         <!-- Tests -->
