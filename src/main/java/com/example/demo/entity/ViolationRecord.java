@@ -1,7 +1,14 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.*;
+
+@Entity
 public class ViolationRecord {
+
+    @Id
+    @GeneratedValue
     private Long id;
+
     private Long userId;
     private Long eventId;
     private String severity;
