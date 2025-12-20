@@ -6,6 +6,6 @@ import org.springframework.http.ResponseEntity;
 public class AuthController {
 
     public ResponseEntity<String> login(UserAccount user) {
-        return ResponseEntity.ok("dummy-token"); // just a placeholder
+        return ResponseEntity.ok("dummy-token"); // placeholder
     }
 }
