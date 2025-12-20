@@ -1,10 +1,7 @@
 package com.example.demo.repository;
 
-import java.util.*;
-import com.example.demo.entity.*;
+import com.example.demo.entity.UserAccount;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserAccountRepository {
-    UserAccount save(UserAccount u);
-    Optional<UserAccount> findById(Long id);
-    List<UserAccount> findAll();
+public interface UserAccountRepository extends JpaRepository<UserAccount, Long> {
 }

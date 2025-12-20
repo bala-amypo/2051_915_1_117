@@ -1,10 +1,11 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.ViolationRecord;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ViolationRecordRepository {
-    Optional<ViolationRecord> findById(Long id);
-    List<ViolationRecord> findAll();
+import java.util.List;
+
+public interface ViolationRecordRepository extends JpaRepository<ViolationRecord, Long> {
+
+    List<ViolationRecord> findByResolvedFalse();
 }
