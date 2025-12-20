@@ -8,24 +8,24 @@ import java.util.List;
 
 public class PolicyRuleServiceImpl implements PolicyRuleService {
 
-    private final PolicyRuleRepository repository;
+    private final PolicyRuleRepository ruleRepo;
 
-    public PolicyRuleServiceImpl(PolicyRuleRepository repository) {
-        this.repository = repository;
+    public PolicyRuleServiceImpl(PolicyRuleRepository ruleRepo) {
+        this.ruleRepo = ruleRepo;
     }
 
     @Override
     public PolicyRule createRule(PolicyRule rule) {
-        return repository.save(rule);
-    }
-
-    @Override
-    public List<PolicyRule> getAllRules() {
-        return repository.findAll();
+        return ruleRepo.save(rule);
     }
 
     @Override
     public List<PolicyRule> getActiveRules() {
-        return repository.findByActiveTrue();
+        return ruleRepo.findByActiveTrue();
+    }
+
+    @Override
+    public List<PolicyRule> getAllRules() {
+        return ruleRepo.findAll();
     }
 }

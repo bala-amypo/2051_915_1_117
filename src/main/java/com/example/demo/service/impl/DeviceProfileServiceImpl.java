@@ -8,28 +8,28 @@ import java.util.Optional;
 
 public class DeviceProfileServiceImpl implements DeviceProfileService {
 
-    private final DeviceProfileRepository repository;
+    private final DeviceProfileRepository deviceRepo;
 
-    public DeviceProfileServiceImpl(DeviceProfileRepository repository) {
-        this.repository = repository;
+    public DeviceProfileServiceImpl(DeviceProfileRepository deviceRepo) {
+        this.deviceRepo = deviceRepo;
     }
 
     @Override
     public DeviceProfile registerDevice(DeviceProfile device) {
-        return repository.save(device);
+        return deviceRepo.save(device);
     }
 
     @Override
     public Optional<DeviceProfile> findByDeviceId(String deviceId) {
-        return repository.findByDeviceId(deviceId);
+        return deviceRepo.findByDeviceId(deviceId);
     }
 
     @Override
-    public DeviceProfile updateTrustStatus(Long id, Boolean trusted) {
-        DeviceProfile device = repository.findById(id).orElse(null);
+    public DeviceProfile updateTrustStatus(Long id, Boolean isTrusted) {
+        DeviceProfile device = deviceRepo.findById(id).orElse(null);
         if (device != null) {
-            device.setIsTrusted(trusted);
-            return repository.save(device);
+            device.setIsTrusted(isTrusted);
+            return deviceRepo.save(device);
         }
         return null;
     }

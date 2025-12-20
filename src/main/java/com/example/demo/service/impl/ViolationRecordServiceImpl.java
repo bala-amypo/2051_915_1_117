@@ -5,31 +5,32 @@ import com.example.demo.repository.ViolationRecordRepository;
 import com.example.demo.service.ViolationRecordService;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ViolationRecordServiceImpl implements ViolationRecordService {
 
-    private final ViolationRecordRepository repository;
+    private final ViolationRecordRepository violationRepo;
 
-    public ViolationRecordServiceImpl(ViolationRecordRepository repository) {
-        this.repository = repository;
+    public ViolationRecordServiceImpl(ViolationRecordRepository violationRepo) {
+        this.violationRepo = violationRepo;
     }
 
     @Override
-    public ViolationRecord logViolation(ViolationRecord record) {
-        return repository.save(record);
+    public ViolationRecord logViolation(ViolationRecord v) {
+        return violationRepo.save(v);
     }
 
     @Override
     public List<ViolationRecord> getUnresolvedViolations() {
-        return repository.findByResolvedFalse();
+        return violationRepo.findByResolvedFalse();
     }
 
     @Override
     public ViolationRecord markResolved(Long id) {
-        ViolationRecord record = repository.findById(id).orElse(null);
-        if (record != null) {
-            record.setResolved(true);
-            return repository.save(record);
+        ViolationRecord v = violationRepo.findById(id).orElse(null);
+        if (v != null) {
+            v.setResolved(true);
+            return violationRepo.save(v);
         }
         return null;
     }
