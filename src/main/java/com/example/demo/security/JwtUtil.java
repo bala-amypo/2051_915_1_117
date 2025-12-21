@@ -1,16 +1,19 @@
 package com.example.demo.security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.stereotype.Component;
+import io.jsonwebtoken.*;
 import java.util.Date;
 
-@Component
 public class JwtUtil {
 
-    private final String secret = "mySecretKey"; // you can load from application.properties
-    private final long validityInMs = 3600000;   // 1 hour
+    private final String secret;
+    private final long validityInMs;
 
+    public JwtUtil(String secret, long validityInMs, boolean isTestMode) {
+        this.secret = secret;
+        this.validityInMs = validityInMs;
+    }
+
+    // Generate JWT token
     public String generateToken(String username, String role) {
         return Jwts.builder()
                 .setSubject(username)
@@ -21,5 +24,31 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Add token validation and parsing methods as needed
+    // Extract username from token
+    public String getUsername(String token) {
+        return Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+    }
+
+    // Validate token
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            return true;
+        } catch (JwtException | IllegalArgumentException e) {
+            return false;
+        }
+    }
+
+    // Optional: get role
+    public String getRole(String token) {
+        return (String) Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role");
+    }
 }
