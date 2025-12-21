@@ -13,8 +13,11 @@ public class LoginEvent {
 
     private Long userId;
 
-    private String loginStatus; // SUCCESS / FAILED
+    // REQUIRED by repository: findByUserIdAndSuccessFalse
+    private boolean success;
+
     private String ipAddress;
+
     private String deviceId;
 
     private LocalDateTime timestamp;
@@ -32,8 +35,8 @@ public class LoginEvent {
         return userId;
     }
 
-    public String getLoginStatus() {
-        return loginStatus;
+    public boolean isSuccess() {
+        return success;
     }
 
     public String getIpAddress() {
@@ -57,8 +60,8 @@ public class LoginEvent {
         this.userId = userId;
     }
 
-    public void setLoginStatus(String loginStatus) {
-        this.loginStatus = loginStatus;
+    public void setSuccess(boolean success) {
+        this.success = success;
     }
 
     public void setIpAddress(String ipAddress) {
