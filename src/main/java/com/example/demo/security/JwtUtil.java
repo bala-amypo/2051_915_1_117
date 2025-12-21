@@ -1,20 +1,16 @@
 package com.example.demo.security;
 
 import io.jsonwebtoken.*;
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 import java.util.function.Function;
 
+@Component
 public class JwtUtil {
 
-    private final String secret;
-    private final long validityInMs;
-    private final boolean isTestMode;
-
-    public JwtUtil(String secret, long validityInMs, boolean isTestMode) {
-        this.secret = secret;
-        this.validityInMs = validityInMs;
-        this.isTestMode = isTestMode;
-    }
+    private final String secret = "test-secret-key";
+    private final long validityInMs = 3600000; // 1 hour
 
     public String generateToken(String username, String role) {
         return Jwts.builder()

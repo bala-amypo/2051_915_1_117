@@ -1,7 +1,6 @@
 package com.example.demo.config;
 
 import com.example.demo.security.JwtFilter;
-import com.example.demo.security.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,12 +22,13 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
         http.csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                         "/auth/**",
-                        "/swagger-ui/**",
                         "/v3/api-docs/**",
+                        "/swagger-ui/**",
                         "/status"
                 ).permitAll()
                 .anyRequest().authenticated()
@@ -48,10 +48,5 @@ public class SecurityConfig {
             AuthenticationConfiguration config
     ) throws Exception {
         return config.getAuthenticationManager();
-    }
-
-    @Bean
-    public JwtUtil jwtUtil() {
-        return new JwtUtil("test-secret-key", 3600000, true);
     }
 }

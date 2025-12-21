@@ -41,12 +41,13 @@ public class JwtFilter extends OncePerRequestFilter {
                         new UsernamePasswordAuthenticationToken(
                                 username,
                                 null,
-                                Collections.singletonList(new SimpleGrantedAuthority(role))
+                                Collections.singletonList(
+                                        new SimpleGrantedAuthority(role)
+                                )
                         );
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
-            } catch (Exception e) {
-                // invalid token → ignore
+            } catch (Exception ignored) {
             }
         }
 
