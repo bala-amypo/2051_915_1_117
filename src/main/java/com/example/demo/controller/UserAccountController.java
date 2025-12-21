@@ -1,31 +1,44 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.UserAccount;
+import com.example.demo.dto.UserAccountDTO;
 import com.example.demo.service.UserAccountService;
-
-import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/users")
 public class UserAccountController {
-    
-    private final UserAccountService userService;
 
-    public UserAccountController(UserAccountService userService) {
-        this.userService = userService;
+    private final UserAccountService service;
+
+    public UserAccountController(UserAccountService service) {
+        this.service = service;
     }
 
-    public ResponseEntity<UserAccount> create(UserAccount user) {
-        return ResponseEntity.ok(userService.createUser(user));
+    @PostMapping
+    public UserAccountDTO create(@RequestBody UserAccountDTO dto) {
+        return service.createUser(dto);
     }
 
-    public ResponseEntity<UserAccount> get(Long id) {
-        UserAccount u = userService.getUserById(id);
-        return u != null ? ResponseEntity.ok(u) : ResponseEntity.notFound().build();
+    @GetMapping("/{id}")
+    public UserAccountDTO getById(@PathVariable Long id) {
+        return service.getUserById(id);
     }
 
-    public ResponseEntity<List<UserAccount>> all() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    @GetMapping
+    public List<UserAccountDTO> getAll() {
+        return service.getAllUsers();
+    }
+
+    @PutMapping("/{id}")
+    public UserAccountDTO update(@PathVariable Long id,
+                                 @RequestBody UserAccountDTO dto) {
+        return service.updateUser(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.deleteUser(id);
     }
 }

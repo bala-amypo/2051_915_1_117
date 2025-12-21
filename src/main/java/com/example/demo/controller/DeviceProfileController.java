@@ -1,23 +1,44 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.DeviceProfile;
+import com.example.demo.dto.DeviceProfileDTO;
 import com.example.demo.service.DeviceProfileService;
-import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
+
+@RestController
+@RequestMapping("/devices")
 public class DeviceProfileController {
-    private final DeviceProfileService deviceService;
 
-    public DeviceProfileController(DeviceProfileService deviceService) {
-        this.deviceService = deviceService;
+    private final DeviceProfileService service;
+
+    public DeviceProfileController(DeviceProfileService service) {
+        this.service = service;
     }
 
-    public ResponseEntity<DeviceProfile> lookup(String deviceId) {
-        Optional<DeviceProfile> d = deviceService.findByDeviceId(deviceId);
-        return d.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    @PostMapping
+    public DeviceProfileDTO create(@RequestBody DeviceProfileDTO dto) {
+        return service.createDevice(dto);
     }
 
-    public ResponseEntity<DeviceProfile> register(DeviceProfile device) {
-        return ResponseEntity.ok(deviceService.registerDevice(device));
+    @GetMapping("/{id}")
+    public DeviceProfileDTO getById(@PathVariable Long id) {
+        return service.getDeviceById(id);
+    }
+
+    @GetMapping
+    public List<DeviceProfileDTO> getAll() {
+        return service.getAllDevices();
+    }
+
+    @PutMapping("/{id}")
+    public DeviceProfileDTO update(@PathVariable Long id,
+                                   @RequestBody DeviceProfileDTO dto) {
+        return service.updateDevice(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.deleteDevice(id);
     }
 }

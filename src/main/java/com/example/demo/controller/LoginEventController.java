@@ -1,27 +1,44 @@
 package com.example.demo.controller;
 
-import com.example.demo.entity.LoginEvent;
+import com.example.demo.dto.LoginEventDTO;
 import com.example.demo.service.LoginEventService;
-
-
-import org.springframework.http.ResponseEntity;
-
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/login-events")
 public class LoginEventController {
-  
-    private final LoginEventService loginService;
 
-    public LoginEventController(LoginEventService loginService) {
-        this.loginService = loginService;
+    private final LoginEventService service;
+
+    public LoginEventController(LoginEventService service) {
+        this.service = service;
     }
 
-    public ResponseEntity<LoginEvent> record(LoginEvent event) {
-        return ResponseEntity.ok(loginService.recordLogin(event));
+    @PostMapping
+    public LoginEventDTO create(@RequestBody LoginEventDTO dto) {
+        return service.createLoginEvent(dto);
     }
 
-    public ResponseEntity<List<LoginEvent>> eventsByUser(Long userId) {
-        return ResponseEntity.ok(loginService.getEventsByUser(userId));
+    @GetMapping("/{id}")
+    public LoginEventDTO getById(@PathVariable Long id) {
+        return service.getLoginEventById(id);
+    }
+
+    @GetMapping
+    public List<LoginEventDTO> getAll() {
+        return service.getAllLoginEvents();
+    }
+
+    @PutMapping("/{id}")
+    public LoginEventDTO update(@PathVariable Long id,
+                                @RequestBody LoginEventDTO dto) {
+        return service.updateLoginEvent(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.deleteLoginEvent(id);
     }
 }
