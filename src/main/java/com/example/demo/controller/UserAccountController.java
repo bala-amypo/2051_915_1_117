@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "User Accounts", description = "Manage user accounts")
 public class UserAccountController {
 
     private final UserAccountRepository userRepo;
@@ -30,7 +33,8 @@ public class UserAccountController {
 
     @PutMapping("/{id}/status")
     public ResponseEntity<UserAccount> updateStatus(@PathVariable Long id, @RequestParam String status) {
-        UserAccount user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+        UserAccount user = userRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
         user.setStatus(status);
         return ResponseEntity.ok(userRepo.save(user));
     }

@@ -20,10 +20,9 @@ public class UserAccount {
     private String password;
     private String role; // ADMIN / USER / AUDITOR
     private String status = "ACTIVE";
-
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    // Getters and Setters
+    // Getters and setters
     public Long getId() { return id; }
     public String getEmployeeId() { return employeeId; }
     public void setEmployeeId(String employeeId) { this.employeeId = employeeId; }
