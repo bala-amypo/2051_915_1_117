@@ -1,7 +1,7 @@
 package com.example.demo.security;
 
 import com.example.demo.entity.UserAccount;
-import com.example.demo.repository.UserAccountRepository;
+import com.example.demo.service.UserAccountService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,17 +13,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final UserAccountRepository userAccountRepository;
+    private final UserAccountService userAccountService;
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil,
-                                   UserAccountRepository userAccountRepository) {
+                                   UserAccountService userAccountService) {
         this.jwtUtil = jwtUtil;
-        this.userAccountRepository = userAccountRepository;
+        this.userAccountService = userAccountService;
     }
 
     @Override
@@ -35,20 +36,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String header = request.getHeader("Authorization");
 
         if (header != null && header.startsWith("Bearer ")) {
+
             String token = header.substring(7);
             String username = jwtUtil.extractUsername(token);
 
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (username != null &&
+                    SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UserAccount user = userAccountRepository.findByUsername(username).orElse(null);
+                // ✅ FIX: unwrap Optional
+                Optional<UserAccount> optUser =
+                        userAccountService.findOptionalByUsername(username);
 
-                if (user != null && jwtUtil.validateToken(token)) {
+                UserAccount user = optUser.orElse(null);
+
+                if (user != null && jwtUtil.validateToken(token, username)) {
+
                     UsernamePasswordAuthenticationToken auth =
                             new UsernamePasswordAuthenticationToken(
-                                    user.getUsername(), null, null);
+                                    username, null, null);
 
-                    auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(auth);
+                    auth.setDetails(
+                            new WebAuthenticationDetailsSource()
+                                    .buildDetails(request));
+
+                    SecurityContextHolder.getContext()
+                            .setAuthentication(auth);
                 }
             }
         }
