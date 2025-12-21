@@ -2,41 +2,37 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.LoginEvent;
 import com.example.demo.service.LoginEventService;
-import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/logins")
-@Tag(name = "Login Events", description = "Record and monitor user login events")
+@RequestMapping("/logins")
 public class LoginEventController {
 
-    private final LoginEventService loginService;
+    private final LoginEventService loginEventService;
 
-    public LoginEventController(LoginEventService loginService) {
-        this.loginService = loginService;
+    public LoginEventController(LoginEventService loginEventService) {
+        this.loginEventService = loginEventService;
     }
 
-    @PostMapping("/record")
-    public ResponseEntity<LoginEvent> recordLogin(@RequestBody LoginEvent event) {
-        loginService.recordLogin(event);
-        return ResponseEntity.ok(event);
-    }
-
+    // Get all login events for a user
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<LoginEvent>> getEventsByUser(@PathVariable Long userId) {
-        return ResponseEntity.ok(loginService.getEventsByUser(userId));
+    public ResponseEntity<List<LoginEvent>> getByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(loginEventService.getByUserId(userId));
     }
 
-    @GetMapping("/suspicious/{userId}")
-    public ResponseEntity<List<LoginEvent>> getSuspiciousLogins(@PathVariable Long userId) {
-        return ResponseEntity.ok(loginService.getSuspiciousLogins(userId));
+    // Get failed login attempts for a user
+    @GetMapping("/user/{userId}/failed")
+    public ResponseEntity<List<LoginEvent>> getFailedLogins(@PathVariable Long userId) {
+        return ResponseEntity.ok(loginEventService.getFailedLogins(userId));
     }
 
-    @GetMapping
-    public ResponseEntity<List<LoginEvent>> getAllEvents() {
-        return ResponseEntity.ok(loginService.getAllEvents());
+    // Save a login event
+    @PostMapping
+    public ResponseEntity<LoginEvent> create(@RequestBody LoginEvent loginEvent) {
+        return ResponseEntity.ok(loginEventService.save(loginEvent));
     }
 }

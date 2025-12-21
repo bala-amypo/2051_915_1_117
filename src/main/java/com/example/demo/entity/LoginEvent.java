@@ -13,38 +13,44 @@ public class LoginEvent {
 
     private Long userId;
 
-    @Column(nullable = false)
-    private String ipAddress;
+    private boolean success;
 
-    private String location;
+    private LocalDateTime timestamp;
 
-    @Column(nullable = false)
-    private String deviceId;
+    public LoginEvent() {
+        this.timestamp = LocalDateTime.now();
+    }
 
-    private LocalDateTime timestamp = LocalDateTime.now();
+    // getters & setters
+    public Long getId() {
+        return id;
+    }
 
-    @Column(nullable = false)
-    private String loginStatus; // SUCCESS / FAILED
+    public Long getUserId() {
+        return userId;
+    }
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public boolean isSuccess() {
+        return success;
+    }
 
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
 
-    public String getIpAddress() { return ipAddress; }
-    public void setIpAddress(String ipAddress) { this.ipAddress = ipAddress; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-    public String getDeviceId() { return deviceId; }
-    public void setDeviceId(String deviceId) { this.deviceId = deviceId; }
+    public void setSuccess(boolean success) {
+        this.success = success;
+    }
 
-    public LocalDateTime getTimestamp() { return timestamp; }
-    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
-
-    public String getLoginStatus() { return loginStatus; }
-    public void setLoginStatus(String loginStatus) { this.loginStatus = loginStatus; }
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 }
