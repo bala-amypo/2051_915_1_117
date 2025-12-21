@@ -3,15 +3,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity 
-@Table(name = "policy_rules", uniqueConstraints = {@UniqueConstraint(columnNames = "rule_code")})
-@Getter 
-@Setter 
+@Entity @Table(name = "policy_rules") @Getter @Setter
 public class PolicyRule {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @Id @GeneratedValue private Long id;
     @Column(name = "rule_code") private String ruleCode;
-    private String description; 
-    private String severity;
+    private String description, severity;
     @Column(name = "conditions_json") private String conditionsJson;
     private Boolean active = true;
 }
