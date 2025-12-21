@@ -1,17 +1,23 @@
 package com.example.demo.entity;
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import java.time.LocalDateTime;
 
-@Entity @Table(name = "violation_records") @Getter @Setter
+import jakarta.persistence.*;
+
+@Entity
 public class ViolationRecord {
-    @Id @GeneratedValue private Long id;
-    @Column(name = "user_id") private Long userId;
-    @Column(name = "policy_rule_id") private Long policyRuleId;
-    @Column(name = "event_id") private Long eventId;
-    @Column(name = "violation_type") private String violationType;
-    private String details, severity;
-    @Column(name = "detected_at") private LocalDateTime detectedAt = LocalDateTime.now();
-    private Boolean resolved = false;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String ruleCode;
+    private Boolean resolved;
+
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public String getRuleCode() { return ruleCode; }
+    public void setRuleCode(String ruleCode) { this.ruleCode = ruleCode; }
+
+    public Boolean getResolved() { return resolved; }
+    public void setResolved(Boolean resolved) { this.resolved = resolved; }
 }
