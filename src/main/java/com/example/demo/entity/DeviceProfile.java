@@ -1,58 +1,75 @@
-package com.example.demo.service.impl;
+package com.example.demo.entity;
 
-import com.example.demo.dto.DeviceProfileDTO;
-import com.example.demo.entity.DeviceProfile;
-import com.example.demo.repository.DeviceProfileRepository;
-import com.example.demo.service.DeviceProfileService;
-import org.springframework.stereotype.Service;
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
-import java.util.List;
+@Entity
+public class DeviceProfile {
 
-@Service
-public class DeviceProfileServiceImpl implements DeviceProfileService {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private final DeviceProfileRepository repository;
+    private Long userId;
+    private String deviceId;
+    private String deviceType;
+    private String osVersion;
+    private Boolean trusted;
+    private LocalDateTime lastSeen;
 
-    public DeviceProfileServiceImpl(DeviceProfileRepository repository) {
-        this.repository = repository;
+    public Long getId() {
+        return id;
     }
 
-    @Override
-    public DeviceProfile createDevice(DeviceProfileDTO dto) {
-        DeviceProfile device = new DeviceProfile();
-        device.setUserId(dto.getUserId());
-        device.setDeviceId(dto.getDeviceId());
-        device.setDeviceType(dto.getDeviceType());
-        device.setOsVersion(dto.getOsVersion());
-        device.setIsTrusted(dto.getIsTrusted()); // ✅ FIXED
-        device.setLastSeen(dto.getLastSeen());
-        return repository.save(device);
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    @Override
-    public DeviceProfile getDeviceById(Long id) {
-        return repository.findById(id).orElse(null);
+    public Long getUserId() {
+        return userId;
     }
 
-    @Override
-    public List<DeviceProfile> getAllDevices() {
-        return repository.findAll();
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
-    @Override
-    public DeviceProfile updateDevice(Long id, DeviceProfileDTO dto) {
-        DeviceProfile device = repository.findById(id).orElse(null);
-        if (device == null) return null;
-
-        device.setDeviceType(dto.getDeviceType());
-        device.setOsVersion(dto.getOsVersion());
-        device.setIsTrusted(dto.getIsTrusted()); // ✅ FIXED
-        device.setLastSeen(dto.getLastSeen());
-        return repository.save(device);
+    public String getDeviceId() {
+        return deviceId;
     }
 
-    @Override
-    public void deleteDevice(Long id) {
-        repository.deleteById(id);
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    public String getOsVersion() {
+        return osVersion;
+    }
+
+    public void setOsVersion(String osVersion) {
+        this.osVersion = osVersion;
+    }
+
+    public Boolean getTrusted() {
+        return trusted;
+    }
+
+    public void setTrusted(Boolean trusted) {
+        this.trusted = trusted;
+    }
+
+    public LocalDateTime getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(LocalDateTime lastSeen) {
+        this.lastSeen = lastSeen;
     }
 }
