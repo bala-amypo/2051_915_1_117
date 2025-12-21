@@ -1,4 +1,3 @@
-cat > src/main/java/com/example/demo/service/DeviceProfileService.java << 'EOF'
 package com.example.demo.service;
 
 import com.example.demo.entity.DeviceProfile;
@@ -35,4 +34,3 @@ public class DeviceProfileService {
         return deviceProfileRepository.findByDeviceId(deviceId);
     }
 }
-EOF
