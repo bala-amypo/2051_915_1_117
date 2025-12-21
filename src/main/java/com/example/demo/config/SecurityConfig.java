@@ -59,7 +59,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Public endpoints
                 .requestMatchers("/auth/**", "/status", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                // TEMP: allow all /api/** without auth so your POSTs work
+                // TEMP: allow all /api/** without auth so POSTs work
                 .requestMatchers("/api/**").permitAll()
                 // Everything else requires auth
                 .anyRequest().authenticated()
