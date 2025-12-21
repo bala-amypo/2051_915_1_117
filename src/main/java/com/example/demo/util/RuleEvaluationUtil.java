@@ -1,3 +1,8 @@
+# 1. DELETE the broken file completely
+rm src/main/java/com/example/demo/util/RuleEvalutionUtil.java
+
+# 2. Create correct RuleEvaluationUtil.java
+cat > src/main/java/com/example/demo/util/RuleEvaluationUtil.java << 'EOF'
 package com.example.demo.util;
 
 import com.example.demo.entity.LoginEvent;
@@ -17,23 +22,28 @@ public class RuleEvaluationUtil {
     }
 
     public void evaluateLoginEvent(LoginEvent event) {
-        // Implementation for rule evaluation logic
-        // This processes active policy rules against login events
+        // Rule evaluation logic - evaluates active rules against login events
         policyRuleRepository.findByActiveTrue().forEach(rule -> {
-            // Evaluate conditionsJson against event - simplified logic
-            // In production, parse JSON conditions and match against event data
             if (shouldTriggerViolation(rule, event)) {
                 createViolation(event, rule);
             }
         });
     }
 
-    private boolean shouldTriggerViolation(/*Rule*/Object rule, LoginEvent event) {
-        // Placeholder logic - implement actual rule evaluation
-        return true;
+    private boolean shouldTriggerViolation(Object rule, LoginEvent event) {
+        return true; // Simplified - implement JSON condition parsing
     }
 
-    private void createViolation(LoginEvent event, /*Rule*/Object rule) {
-        // Create violation record with inherited severity
+    private void createViolation(LoginEvent event, Object rule) {
+        // Create violation record inheriting rule severity
     }
 }
+EOF
+
+# 3. Fix DeviceProfileService.java method names
+sed -i 's/setTrusted(/setIsTrusted(/g' src/main/java/com/example/demo/service/DeviceProfileService.java
+sed -i 's/setLastSeen(/device.setLastSeen(/g' src/main/java/com/example/demo/service/DeviceProfileService.java
+
+# 4. Ensure all entities have @Getter @Setter at class level
+# Run mvn clean compile now
+mvn clean compile
