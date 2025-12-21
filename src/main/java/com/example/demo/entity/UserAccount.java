@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_accounts")
@@ -16,14 +17,18 @@ public class UserAccount {
     @Column(nullable = false)
     private String password;
 
-    public UserAccount() {}
+    private String role;     // USER / ADMIN
+    private String status;   // ACTIVE / BLOCKED
 
-    public UserAccount(String username, String password) {
-        this.username = username;
-        this.password = password;
+    private LocalDateTime createdAt;
+
+    public UserAccount() {
+        this.createdAt = LocalDateTime.now();
+        this.status = "ACTIVE";
+        this.role = "USER";
     }
 
-    // getters & setters
+    // ===== getters =====
     public Long getId() {
         return id;
     }
@@ -32,19 +37,45 @@ public class UserAccount {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public String getPassword() {
+        return password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    // ===== setters =====
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getPassword() {
-        return password;
+    public void setUsername(String username) {
+        this.username = username;
     }
-    
+
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
 }

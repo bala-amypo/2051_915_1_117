@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "device_profiles")
@@ -11,14 +12,17 @@ public class DeviceProfile {
     private Long id;
 
     private Long userId;
-
     private String deviceId;
-
     private boolean trusted;
 
-    public DeviceProfile() {}
+    private LocalDateTime lastSeen;
 
-    // getters & setters
+    public DeviceProfile() {
+        this.lastSeen = LocalDateTime.now();
+        this.trusted = false;
+    }
+
+    // ===== getters =====
     public Long getId() {
         return id;
     }
@@ -35,6 +39,11 @@ public class DeviceProfile {
         return trusted;
     }
 
+    public LocalDateTime getLastSeen() {
+        return lastSeen;
+    }
+
+    // ===== setters =====
     public void setId(Long id) {
         this.id = id;
     }
@@ -47,8 +56,11 @@ public class DeviceProfile {
         this.deviceId = deviceId;
     }
 
-    // REQUIRED by DeviceProfileServiceImpl
     public void setTrusted(boolean trusted) {
         this.trusted = trusted;
+    }
+
+    public void setLastSeen(LocalDateTime lastSeen) {
+        this.lastSeen = lastSeen;
     }
 }

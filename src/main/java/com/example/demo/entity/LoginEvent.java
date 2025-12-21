@@ -13,7 +13,9 @@ public class LoginEvent {
 
     private Long userId;
 
-    private boolean success;
+    private String loginStatus; // SUCCESS / FAILED
+    private String ipAddress;
+    private String deviceId;
 
     private LocalDateTime timestamp;
 
@@ -21,7 +23,7 @@ public class LoginEvent {
         this.timestamp = LocalDateTime.now();
     }
 
-    // getters & setters
+    // ===== getters =====
     public Long getId() {
         return id;
     }
@@ -30,14 +32,23 @@ public class LoginEvent {
         return userId;
     }
 
-    public boolean isSuccess() {
-        return success;
+    public String getLoginStatus() {
+        return loginStatus;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
     }
 
     public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
+    // ===== setters =====
     public void setId(Long id) {
         this.id = id;
     }
@@ -46,8 +57,16 @@ public class LoginEvent {
         this.userId = userId;
     }
 
-    public void setSuccess(boolean success) {
-        this.success = success;
+    public void setLoginStatus(String loginStatus) {
+        this.loginStatus = loginStatus;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 
     public void setTimestamp(LocalDateTime timestamp) {
