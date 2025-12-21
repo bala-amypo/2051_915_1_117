@@ -7,15 +7,13 @@ import java.time.LocalDateTime;
 public class LoginEvent {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long userId;
-    private String loginStatus;
     private String ipAddress;
-    private String deviceId;
-    private String location;
-    private LocalDateTime timestamp;
+    private Boolean success;
+    private LocalDateTime eventTime;
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -23,18 +21,12 @@ public class LoginEvent {
     public Long getUserId() { return userId; }
     public void setUserId(Long userId) { this.userId = userId; }
 
-    public String getLoginStatus() { return loginStatus; }
-    public void setLoginStatus(String loginStatus) { this.loginStatus = loginStatus; }
-
     public String getIpAddress() { return ipAddress; }
     public void setIpAddress(String ipAddress) { this.ipAddress = ipAddress; }
 
-    public String getDeviceId() { return deviceId; }
-    public void setDeviceId(String deviceId) { this.deviceId = deviceId; }
+    public Boolean getSuccess() { return success; }
+    public void setSuccess(Boolean success) { this.success = success; }
 
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
-
-    public LocalDateTime getTimestamp() { return timestamp; }
-    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
+    public LocalDateTime getEventTime() { return eventTime; }
+    public void setEventTime(LocalDateTime eventTime) { this.eventTime = eventTime; }
 }

@@ -3,37 +3,26 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.LoginEvent;
 import com.example.demo.repository.LoginEventRepository;
 import com.example.demo.service.LoginEventService;
-import com.example.demo.util.RuleEvaluationUtil;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
-
+@Service   // 🔴 THIS ANNOTATION IS CRITICAL
 public class LoginEventServiceImpl implements LoginEventService {
 
-    private final LoginEventRepository loginRepo;
-    private final RuleEvaluationUtil evaluator;
+    private final LoginEventRepository repository;
 
-    public LoginEventServiceImpl(LoginEventRepository loginRepo,
-                                 RuleEvaluationUtil evaluator) {
-        this.loginRepo = loginRepo;
-        this.evaluator = evaluator;
+    public LoginEventServiceImpl(LoginEventRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public LoginEvent recordLogin(LoginEvent event) {
-        LoginEvent saved = loginRepo.save(event);
-        evaluator.evaluateLoginEvent(saved);
-        return saved;
+    public LoginEvent save(LoginEvent event) {
+        return repository.save(event);
     }
 
     @Override
-    public List<LoginEvent> getEventsByUser(Long userId) {
-        return loginRepo.findByUserId(userId);
-    }
-
-    @Override
-    public List<LoginEvent> getSuspiciousLogins(Long userId) {
-        return loginRepo.findByUserIdAndLoginStatus(userId, "FAILED");
+    public List<LoginEvent> getByUserId(Long userId) {
+        return repository.findByUserId(userId);
     }
 }
