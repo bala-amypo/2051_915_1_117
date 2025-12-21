@@ -57,12 +57,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Public endpoints
-                .requestMatchers("/auth/**", "/status", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
-                // TEMP: allow all /api/** without auth so POSTs work
-                .requestMatchers("/api/**").permitAll()
-                // Everything else requires auth
-                .anyRequest().authenticated()
+                // TEMP: allow absolutely everything while debugging
+                .anyRequest().permitAll()
             )
             .authenticationProvider(authenticationProvider())
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
