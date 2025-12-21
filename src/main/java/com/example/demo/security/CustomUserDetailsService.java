@@ -2,6 +2,7 @@ package com.example.demo.security;
 
 import com.example.demo.entity.UserAccount;
 import com.example.demo.repository.UserAccountRepository;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,9 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         UserAccount user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
 
-        // Return Spring Security User object
-        return org.springframework.security.core.userdetails.User
-                .withUsername(user.getUsername())
+        return User.withUsername(user.getUsername())
                 .password(user.getPassword())
                 .roles(user.getRole())
                 .build();
