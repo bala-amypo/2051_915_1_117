@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
-@Entity @Table(name = "device_profiles") @Getter @Setter
+@Entity 
+@Table(name = "device_profiles") 
+@Getter 
+@Setter 
 public class DeviceProfile {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     @Column(name = "user_id") private Long userId;

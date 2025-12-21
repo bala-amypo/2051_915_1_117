@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
     @UniqueConstraint(columnNames = "username"), 
     @UniqueConstraint(columnNames = "email")
 })
-@Getter @Setter
+@Getter
+@Setter
 public class UserAccount {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     @Column(name = "employee_id") private String employeeId;

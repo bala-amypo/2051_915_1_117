@@ -4,7 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import java.time.LocalDateTime;
 
-@Entity @Table(name = "violation_records") @Getter @Setter
+@Entity 
+@Table(name = "violation_records") 
+@Getter 
+@Setter 
 public class ViolationRecord {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     @Column(name = "user_id") private Long userId;
