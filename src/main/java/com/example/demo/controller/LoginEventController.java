@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.LoginEventDTO;
+import com.example.demo.entity.LoginEvent;
 import com.example.demo.service.LoginEventService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,28 +18,17 @@ public class LoginEventController {
     }
 
     @PostMapping
-    public LoginEventDTO create(@RequestBody LoginEventDTO dto) {
-        return service.createLoginEvent(dto);
+    public ResponseEntity<LoginEvent> create(@RequestBody LoginEvent event) {
+        return ResponseEntity.ok(service.recordLogin(event));
     }
 
-    @GetMapping("/{id}")
-    public LoginEventDTO getById(@PathVariable Long id) {
-        return service.getLoginEventById(id);
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<LoginEvent>> byUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(service.getEventsByUser(userId));
     }
 
-    @GetMapping
-    public List<LoginEventDTO> getAll() {
-        return service.getAllLoginEvents();
-    }
-
-    @PutMapping("/{id}")
-    public LoginEventDTO update(@PathVariable Long id,
-                                @RequestBody LoginEventDTO dto) {
-        return service.updateLoginEvent(id, dto);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.deleteLoginEvent(id);
+    @GetMapping("/user/{userId}/failed")
+    public ResponseEntity<List<LoginEvent>> failed(@PathVariable Long userId) {
+        return ResponseEntity.ok(service.getSuspiciousLogins(userId));
     }
 }

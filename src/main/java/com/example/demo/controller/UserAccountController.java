@@ -1,7 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.UserAccountDTO;
+import com.example.demo.entity.UserAccount;
 import com.example.demo.service.UserAccountService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,28 +18,17 @@ public class UserAccountController {
     }
 
     @PostMapping
-    public UserAccountDTO create(@RequestBody UserAccountDTO dto) {
-        return service.createUser(dto);
+    public ResponseEntity<UserAccount> create(@RequestBody UserAccount user) {
+        return ResponseEntity.ok(service.createUser(user));
     }
 
     @GetMapping("/{id}")
-    public UserAccountDTO getById(@PathVariable Long id) {
-        return service.getUserById(id);
+    public ResponseEntity<UserAccount> get(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getUserById(id));
     }
 
     @GetMapping
-    public List<UserAccountDTO> getAll() {
-        return service.getAllUsers();
-    }
-
-    @PutMapping("/{id}")
-    public UserAccountDTO update(@PathVariable Long id,
-                                 @RequestBody UserAccountDTO dto) {
-        return service.updateUser(id, dto);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.deleteUser(id);
+    public ResponseEntity<List<UserAccount>> all() {
+        return ResponseEntity.ok(service.getAllUsers());
     }
 }

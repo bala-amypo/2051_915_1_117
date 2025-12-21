@@ -1,10 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.DeviceProfileDTO;
+import com.example.demo.entity.DeviceProfile;
 import com.example.demo.service.DeviceProfileService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/devices")
@@ -17,28 +18,19 @@ public class DeviceProfileController {
     }
 
     @PostMapping
-    public DeviceProfileDTO create(@RequestBody DeviceProfileDTO dto) {
-        return service.createDevice(dto);
+    public ResponseEntity<DeviceProfile> register(@RequestBody DeviceProfile device) {
+        return ResponseEntity.ok(service.registerDevice(device));
     }
 
-    @GetMapping("/{id}")
-    public DeviceProfileDTO getById(@PathVariable Long id) {
-        return service.getDeviceById(id);
+    @GetMapping("/{deviceId}")
+    public ResponseEntity<Optional<DeviceProfile>> lookup(@PathVariable String deviceId) {
+        return ResponseEntity.ok(service.findByDeviceId(deviceId));
     }
 
-    @GetMapping
-    public List<DeviceProfileDTO> getAll() {
-        return service.getAllDevices();
-    }
-
-    @PutMapping("/{id}")
-    public DeviceProfileDTO update(@PathVariable Long id,
-                                   @RequestBody DeviceProfileDTO dto) {
-        return service.updateDevice(id, dto);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.deleteDevice(id);
+    @PutMapping("/{id}/trust/{trusted}")
+    public ResponseEntity<DeviceProfile> trust(
+            @PathVariable Long id,
+            @PathVariable boolean trusted) {
+        return ResponseEntity.ok(service.updateTrustStatus(id, trusted));
     }
 }
