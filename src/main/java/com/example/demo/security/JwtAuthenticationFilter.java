@@ -22,7 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService; // resolves to CustomUserDetailsService
+    private UserDetailsService userDetailsService; // CustomUserDetailsService bean
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
