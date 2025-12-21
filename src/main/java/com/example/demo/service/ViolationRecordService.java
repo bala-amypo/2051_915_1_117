@@ -2,38 +2,40 @@ package com.example.demo.service;
 
 import com.example.demo.entity.ViolationRecord;
 import com.example.demo.repository.ViolationRecordRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ViolationRecordService {
+    private final ViolationRecordRepository violationRecordRepository;
 
-    private final ViolationRecordRepository violationRepo;
-
-    public ViolationRecordService(ViolationRecordRepository violationRepo) {
-        this.violationRepo = violationRepo;
+    public ViolationRecordService(ViolationRecordRepository violationRecordRepository) {
+        this.violationRecordRepository = violationRecordRepository;
     }
 
     public ViolationRecord logViolation(ViolationRecord violation) {
-        return violationRepo.save(violation);
+        return violationRecordRepository.save(violation);
     }
 
     public List<ViolationRecord> getViolationsByUser(Long userId) {
-        return violationRepo.findAll().stream()
-                .filter(v -> v.getUserId().equals(userId)).toList();
+        return violationRecordRepository.findAll().stream()
+                .filter(v -> v.getUserId().equals(userId))
+                .toList();
     }
 
-    public ViolationRecord markResolved(Long id) {
-        ViolationRecord record = violationRepo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Violation not found"));
-        record.setResolved(true);
-        return violationRepo.save(record);
+    public void markResolved(Long id) {
+        violationRecordRepository.findById(id).ifPresent(violation -> {
+            violation.setResolved(true);
+            violationRecordRepository.save(violation);
+        });
     }
 
     public List<ViolationRecord> getUnresolvedViolations() {
-        return violationRepo.findByResolvedFalse();
+        return violationRecordRepository.findByResolvedFalse();
     }
 
     public List<ViolationRecord> getAllViolations() {
-        return violationRepo.findAll();
+        return violationRecordRepository.findAll();
     }
 }

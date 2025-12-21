@@ -2,42 +2,46 @@ package com.example.demo.service;
 
 import com.example.demo.entity.PolicyRule;
 import com.example.demo.repository.PolicyRuleRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class PolicyRuleService {
+    private final PolicyRuleRepository policyRuleRepository;
 
-    private final PolicyRuleRepository ruleRepo;
-
-    public PolicyRuleService(PolicyRuleRepository ruleRepo) {
-        this.ruleRepo = ruleRepo;
+    public PolicyRuleService(PolicyRuleRepository policyRuleRepository) {
+        this.policyRuleRepository = policyRuleRepository;
     }
 
     public PolicyRule createRule(PolicyRule rule) {
-        return ruleRepo.save(rule);
+        return policyRuleRepository.save(rule);
     }
 
     public PolicyRule updateRule(Long id, PolicyRule rule) {
-        PolicyRule existing = ruleRepo.findById(id).orElseThrow(() -> new RuntimeException("Rule not found"));
-        existing.setDescription(rule.getDescription());
-        existing.setSeverity(rule.getSeverity());
-        existing.setConditionsJson(rule.getConditionsJson());
-        existing.setActive(rule.getActive());
-        return ruleRepo.save(existing);
+        policyRuleRepository.findById(id).ifPresent(existing -> {
+            existing.setRuleCode(rule.getRuleCode());
+            existing.setDescription(rule.getDescription());
+            existing.setSeverity(rule.getSeverity());
+            existing.setConditionsJson(rule.getConditionsJson());
+            existing.setActive(rule.getActive());
+            policyRuleRepository.save(existing);
+        });
+        return rule;
     }
 
     public List<PolicyRule> getActiveRules() {
-        return ruleRepo.findByActiveTrue();
+        return policyRuleRepository.findByActiveTrue();
     }
 
-    public PolicyRule getRuleByCode(String ruleCode) {
-        return ruleRepo.findAll().stream()
-                .filter(r -> r.getRuleCode().equals(ruleCode))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Rule not found"));
+    public Optional<PolicyRule> getRuleByCode(String ruleCode) {
+        return policyRuleRepository.findAll().stream()
+                .filter(rule -> ruleCode.equals(rule.getRuleCode()))
+                .findFirst();
     }
 
     public List<PolicyRule> getAllRules() {
-        return ruleRepo.findAll();
+        return policyRuleRepository.findAll();
     }
 }

@@ -2,32 +2,35 @@ package com.example.demo.service;
 
 import com.example.demo.entity.DeviceProfile;
 import com.example.demo.repository.DeviceProfileRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class DeviceProfileService {
+    private final DeviceProfileRepository deviceProfileRepository;
 
-    private final DeviceProfileRepository deviceRepo;
-
-    public DeviceProfileService(DeviceProfileRepository deviceRepo) {
-        this.deviceRepo = deviceRepo;
+    public DeviceProfileService(DeviceProfileRepository deviceProfileRepository) {
+        this.deviceProfileRepository = deviceProfileRepository;
     }
 
     public DeviceProfile registerDevice(DeviceProfile device) {
-        return deviceRepo.save(device);
+        return deviceProfileRepository.save(device);
     }
 
-    public DeviceProfile updateTrustStatus(Long id, boolean trust) {
-        DeviceProfile device = deviceRepo.findById(id).orElseThrow(() -> new RuntimeException("Device not found"));
-        device.setIsTrusted(trust);
-        return deviceRepo.save(device);
+    public void updateTrustStatus(Long id, boolean trust) {
+        deviceProfileRepository.findById(id).ifPresent(device -> {
+            device.setTrusted(trust);
+            deviceProfileRepository.save(device);
+        });
     }
 
     public List<DeviceProfile> getDevicesByUser(Long userId) {
-        return deviceRepo.findAll().stream().filter(d -> d.getUserId().equals(userId)).toList();
+        return deviceProfileRepository.findAll();
     }
 
-    public DeviceProfile findByDeviceId(String deviceId) {
-        return deviceRepo.findByDeviceId(deviceId).orElseThrow(() -> new RuntimeException("Device not found"));
+    public Optional<DeviceProfile> findByDeviceId(String deviceId) {
+        return deviceProfileRepository.findByDeviceId(deviceId);
     }
 }
