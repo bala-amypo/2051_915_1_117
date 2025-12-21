@@ -3,41 +3,47 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.DeviceProfile;
 import com.example.demo.repository.DeviceProfileRepository;
 import com.example.demo.service.DeviceProfileService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class DeviceProfileServiceImpl implements DeviceProfileService {
 
-    private final DeviceProfileRepository deviceRepo;
+    private final DeviceProfileRepository repository;
 
-    public DeviceProfileServiceImpl(DeviceProfileRepository deviceRepo) {
-        this.deviceRepo = deviceRepo;
+    // 🔴 CONSTRUCTOR ORDER MUST MATCH TEST REQUIREMENT
+    public DeviceProfileServiceImpl(DeviceProfileRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public DeviceProfile registerDevice(DeviceProfile device) {
         device.setLastSeen(LocalDateTime.now());
-        return deviceRepo.save(device);
+        return repository.save(device);
     }
 
     @Override
-    public void updateTrustStatus(Long id, boolean trust) {
-        DeviceProfile device = deviceRepo.findById(id).orElse(null);
+    public DeviceProfile updateTrustStatus(Long id, boolean trust) {
+        DeviceProfile device = repository.findById(id).orElse(null);
         if (device != null) {
-            device.setIsTrusted(trust);
-            device.setLastSeen(LocalDateTime.now());
-            deviceRepo.save(device);
+            device.setTrusted(trust);
+            return repository.save(device);
         }
+        return null;
     }
 
     @Override
     public List<DeviceProfile> getDevicesByUser(Long userId) {
-        return deviceRepo.findAll().stream().filter(d -> d.getUserId().equals(userId)).toList();
+        return repository.findAll()
+                .stream()
+                .filter(d -> d.getUserId().equals(userId))
+                .toList();
     }
 
     @Override
     public DeviceProfile findByDeviceId(String deviceId) {
-        return deviceRepo.findByDeviceId(deviceId);
+        return repository.findByDeviceId(deviceId);
     }
 }
