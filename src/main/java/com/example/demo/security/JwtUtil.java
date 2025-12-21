@@ -1,12 +1,9 @@
 package com.example.demo.security;
 
 import io.jsonwebtoken.*;
-import org.springframework.stereotype.Component;
-
 import java.util.Date;
 import java.util.function.Function;
 
-@Component
 public class JwtUtil {
 
     private final String secret;
@@ -37,19 +34,14 @@ public class JwtUtil {
         return (String) extractAllClaims(token).get("role");
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
-        return claimsResolver.apply(extractAllClaims(token));
+    private <T> T extractClaim(String token, Function<Claims, T> resolver) {
+        return resolver.apply(extractAllClaims(token));
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-    }
-
-    public boolean isTokenExpired(String token) {
-        return extractAllClaims(token).getExpiration().before(new Date());
-    }
-
-    public boolean validateToken(String token, String username) {
-        return (extractUsername(token).equals(username) && !isTokenExpired(token));
+        return Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
