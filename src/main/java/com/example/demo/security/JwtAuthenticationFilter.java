@@ -22,9 +22,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private JwtUtil jwtUtil;
 
     @Autowired
-    private UserDetailsService userDetailsService;
-
-    // NO constructor at all
+    private UserDetailsService userDetailsService; // resolves to CustomUserDetailsService
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
