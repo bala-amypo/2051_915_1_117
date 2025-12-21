@@ -13,33 +13,65 @@ public class DeviceProfile {
 
     private Long userId;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String deviceId;
 
     private String deviceType;
-    private String osVersion;
-    private LocalDateTime lastSeen = LocalDateTime.now();
-    private Boolean isTrusted = false;
 
-    // Getters & Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    private boolean trusted;
 
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    private LocalDateTime lastSeen;
 
-    public String getDeviceId() { return deviceId; }
-    public void setDeviceId(String deviceId) { this.deviceId = deviceId; }
+    // ===== GETTERS =====
 
-    public String getDeviceType() { return deviceType; }
-    public void setDeviceType(String deviceType) { this.deviceType = deviceType; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getOsVersion() { return osVersion; }
-    public void setOsVersion(String osVersion) { this.osVersion = osVersion; }
+    public Long getUserId() {
+        return userId;
+    }
 
-    public LocalDateTime getLastSeen() { return lastSeen; }
-    public void setLastSeen(LocalDateTime lastSeen) { this.lastSeen = lastSeen; }
+    public String getDeviceId() {
+        return deviceId;
+    }
 
-    public Boolean getIsTrusted() { return isTrusted; }
-    public void setIsTrusted(Boolean isTrusted) { this.isTrusted = isTrusted; }
+    public String getDeviceType() {
+        return deviceType;
+    }
+
+    public boolean isTrusted() {
+        return trusted;
+    }
+
+    public LocalDateTime getLastSeen() {
+        return lastSeen;
+    }
+
+    // ===== SETTERS =====
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public void setDeviceType(String deviceType) {
+        this.deviceType = deviceType;
+    }
+
+    // 🔴 THIS IS THE MISSING METHOD
+    public void setTrusted(boolean trusted) {
+        this.trusted = trusted;
+    }
+
+    public void setLastSeen(LocalDateTime lastSeen) {
+        this.lastSeen = lastSeen;
+    }
 }
