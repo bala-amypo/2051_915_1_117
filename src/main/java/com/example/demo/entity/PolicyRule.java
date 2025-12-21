@@ -10,27 +10,40 @@ public class PolicyRule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String ruleCode;
+    private String ruleName;
 
-    private String description;
-    private String severity; // LOW / MEDIUM / HIGH / CRITICAL
-    private String conditionsJson;
-    private Boolean active = true;
+    private String ruleType;
 
-    // Getters
-    public Long getId() { return id; }
-    public String getRuleCode() { return ruleCode; }
-    public String getDescription() { return description; }
-    public String getSeverity() { return severity; }
-    public String getConditionsJson() { return conditionsJson; }
-    public Boolean getActive() { return active; }
+    private boolean enabled;
 
-    // Setters
-    public void setId(Long id) { this.id = id; }
-    public void setRuleCode(String ruleCode) { this.ruleCode = ruleCode; }
-    public void setDescription(String description) { this.description = description; }
-    public void setSeverity(String severity) { this.severity = severity; }
-    public void setConditionsJson(String conditionsJson) { this.conditionsJson = conditionsJson; }
-    public void setActive(Boolean active) { this.active = active; }
+    public PolicyRule() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getRuleName() {
+        return ruleName;
+    }
+
+    public void setRuleName(String ruleName) {
+        this.ruleName = ruleName;
+    }
+
+    public String getRuleType() {
+        return ruleType;
+    }
+
+    public void setRuleType(String ruleType) {
+        this.ruleType = ruleType;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 }
