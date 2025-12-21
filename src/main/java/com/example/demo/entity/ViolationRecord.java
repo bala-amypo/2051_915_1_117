@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "violation_records")
 public class ViolationRecord {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,5 +20,25 @@ public class ViolationRecord {
     private LocalDateTime detectedAt = LocalDateTime.now();
     private Boolean resolved = false;
 
-    // Getters and Setters
+    // Getters
+    public Long getId() { return id; }
+    public Long getUserId() { return userId; }
+    public Long getPolicyRuleId() { return policyRuleId; }
+    public Long getEventId() { return eventId; }
+    public String getViolationType() { return violationType; }
+    public String getDetails() { return details; }
+    public String getSeverity() { return severity; }
+    public LocalDateTime getDetectedAt() { return detectedAt; }
+    public Boolean getResolved() { return resolved; }
+
+    // Setters
+    public void setId(Long id) { this.id = id; }
+    public void setUserId(Long userId) { this.userId = userId; }
+    public void setPolicyRuleId(Long policyRuleId) { this.policyRuleId = policyRuleId; }
+    public void setEventId(Long eventId) { this.eventId = eventId; }
+    public void setViolationType(String violationType) { this.violationType = violationType; }
+    public void setDetails(String details) { this.details = details; }
+    public void setSeverity(String severity) { this.severity = severity; }
+    public void setDetectedAt(LocalDateTime detectedAt) { this.detectedAt = detectedAt; }
+    public void setResolved(Boolean resolved) { this.resolved = resolved; }
 }
