@@ -97,7 +97,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Spring Boot Test (JUnit, Mockito, etc.) -->
+        <!-- Spring Boot Test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -111,7 +111,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- TestNG (required by your failing test classes) -->
+        <!-- TestNG (needed by your failing test classes) -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
