@@ -7,12 +7,25 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.function.Function;
 
 @Component
 public class JwtUtil {
 
-    private final String secret = "TestSecretKeyForJWT1234567890";
-    private final long expiration = 3600000L; // 1 hour
+    private String secret = "TestSecretKeyForJWT1234567890"; // default for tests
+    private long expiration = 3600000L; // 1 hour
+    private boolean debug = true;
+
+    // No-arg constructor (required by the test)
+    public JwtUtil() {
+    }
+
+    // Full constructor (used in real config)
+    public JwtUtil(String secret, long expiration, boolean debug) {
+        this.secret = secret;
+        this.expiration = expiration;
+        this.debug = debug;
+    }
 
     public String generateToken(String username, Long userId, String email, String role) {
         return Jwts.builder()
@@ -22,7 +35,7 @@ public class JwtUtil {
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
@@ -31,22 +44,38 @@ public class JwtUtil {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
         } catch (Exception e) {
+            if (debug) {
+                e.printStackTrace();
+            }
             return false;
         }
     }
 
-    public String getEmail(String token) {
-        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-        return claims.get("email", String.class);
-    }
-
-    public String getRole(String token) {
-        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-        return claims.get("role", String.class);
+    public String getUsername(String token) {
+        return getClaimFromToken(token, Claims::getSubject);
     }
 
     public Long getUserId(String token) {
-        Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-        return claims.get("userId", Long.class);
+        return getClaimFromToken(token, claims -> claims.get("userId", Long.class));
+    }
+
+    public String getEmail(String token) {
+        return getClaimFromToken(token, claims -> claims.get("email", String.class));
+    }
+
+    public String getRole(String token) {
+        return getClaimFromToken(token, claims -> claims.get("role", String.class));
+    }
+
+    public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims getAllClaimsFromToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
