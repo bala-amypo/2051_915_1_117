@@ -7,8 +7,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -17,11 +15,9 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-    private final UserDetailsService userDetailsService;
 
     public JwtAuthenticationFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
-        this.userDetailsService = null; // We’ll skip full UserDetails for now
     }
 
     @Override
@@ -30,13 +26,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         String token = extractToken(request);
         if (token != null && jwtUtil.validateToken(token)) {
-            String username = jwtUtil.getEmail(token);
+            String email = jwtUtil.getEmail(token);
             Long userId = jwtUtil.getUserId(token);
             String role = jwtUtil.getRole(token);
 
-            // For simplicity, we just set a dummy auth; in real app, load from DB
+            // For now, just set a dummy auth; in real app, load from DB via UserDetailsService
             UsernamePasswordAuthenticationToken authentication =
-                    new UsernamePasswordAuthenticationToken(username, null, null);
+                    new UsernamePasswordAuthenticationToken(email, null, null);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }

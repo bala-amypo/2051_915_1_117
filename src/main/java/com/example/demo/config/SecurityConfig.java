@@ -1,6 +1,8 @@
-// src/main/java/com/example/demo/security/SecurityConfig.java
-package com.example.demo.security;
+// src/main/java/com/example/demo/config/SecurityConfig.java
+package com.example.demo.config;
 
+import com.example.demo.security.JwtUtil;
+import com.example.demo.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
