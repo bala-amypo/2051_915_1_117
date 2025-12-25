@@ -26,22 +26,30 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+            // No CSRF for stateless REST APIs
             .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            // Stateless sessions (JWT style)
+            .sessionManagement(session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            // URL authorization rules
             .authorizeHttpRequests(auth -> auth
-                // Public endpoints
+                // Public endpoints while developing
                 .requestMatchers(
-                    "/api/auth/**",      // login, etc.
-                    "/api/users/**",     // user APIs open while developing
-                    "/simple",           // your SimpleStatusServlet
+                    "/api/auth/**",
+                    "/api/users/**",
+                    "/api/violations/**",
+                    "/api/rules/**",
+                    "/api/devices/**",
+                    "/simple",
                     "/swagger-ui.html",
                     "/swagger-ui/**",
                     "/v3/api-docs/**"
                 ).permitAll()
-                // Everything else requires JWT
+                // Everything else still requires authentication
                 .anyRequest().authenticated()
             )
-            // JWT filter before UsernamePasswordAuthenticationFilter
+            // JWT filter
             .addFilterBefore(
                 new JwtAuthenticationFilter(jwtUtil),
                 UsernamePasswordAuthenticationFilter.class
