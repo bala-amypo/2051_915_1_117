@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
@@ -43,5 +44,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Override
     public List<UserAccount> getAllUsers() {
         return userRepo.findAll();
+    }
+
+    // Add this method
+    @Override
+    public Optional<UserAccount> findByEmail(String email) {
+        return userRepo.findByEmail(email);
     }
 }
