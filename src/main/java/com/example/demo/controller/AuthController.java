@@ -28,7 +28,6 @@ public class AuthController {
         Optional<UserAccount> userOpt = userService.findByEmail(request.getEmail());
         if (userOpt.isPresent()) {
             UserAccount user = userOpt.get();
-            // In real app, use passwordEncoder.matches(request.getPassword(), user.getPassword())
             if (user.getPassword().equals(request.getPassword())) {
                 String token = jwtUtil.generateToken(
                     user.getUsername(),

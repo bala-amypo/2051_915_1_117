@@ -10,7 +10,5 @@ public interface UserAccountService {
     UserAccount getUserById(Long id);
     UserAccount updateUserStatus(Long id, String status);
     List<UserAccount> getAllUsers();
-    
-    // Add this method
     Optional<UserAccount> findByEmail(String email);
 }

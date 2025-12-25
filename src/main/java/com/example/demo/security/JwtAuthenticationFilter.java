@@ -30,7 +30,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             Long userId = jwtUtil.getUserId(token);
             String role = jwtUtil.getRole(token);
 
-            // For now, just set a dummy auth; in real app, load from DB via UserDetailsService
             UsernamePasswordAuthenticationToken authentication =
                     new UsernamePasswordAuthenticationToken(email, null, null);
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

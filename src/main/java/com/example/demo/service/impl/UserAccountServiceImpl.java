@@ -46,7 +46,6 @@ public class UserAccountServiceImpl implements UserAccountService {
         return userRepo.findAll();
     }
 
-    // Add this method
     @Override
     public Optional<UserAccount> findByEmail(String email) {
         return userRepo.findByEmail(email);

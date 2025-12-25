@@ -4,19 +4,19 @@ package com.example.demo.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final String secret;
-    private final long expiration;
 
-    public JwtUtil(String secret, long expiration, boolean unused) {
-        this.secret = secret;
-        this.expiration = expiration;
-    }
+    @Value("${jwt.secret}")
+    private String secret;
+
+    @Value("${jwt.expiration}")
+    private long expiration;
 
     public String generateToken(String username, Long userId, String email, String role) {
         return Jwts.builder()
