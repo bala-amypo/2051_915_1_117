@@ -4,7 +4,9 @@ package com.example.demo.controller;
 import com.example.demo.entity.UserAccount;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserAccountService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -17,35 +19,54 @@ public class AuthController {
 
     private final UserAccountService userService;
     private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserAccountService userService, JwtUtil jwtUtil) {
+    public AuthController(UserAccountService userService,
+                          JwtUtil jwtUtil,
+                          PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody LoginRequest request) {
         Optional<UserAccount> userOpt = userService.findByEmail(request.getEmail());
-        if (userOpt.isPresent()) {
-            UserAccount user = userOpt.get();
-            if (user.getPassword().equals(request.getPassword())) {
-                String token = jwtUtil.generateToken(
-                    user.getUsername(),
-                    user.getId(),
-                    user.getEmail(),
-                    user.getRole()
-                );
 
-                Map<String, String> response = new HashMap<>();
-                response.put("token", token);
-                response.put("role", user.getRole());
-                return ResponseEntity.ok(response);
-            }
+        if (userOpt.isEmpty()) {
+            return invalidCredentials();
         }
-        return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
+
+        UserAccount user = userOpt.get();
+
+        // Compare raw password with encoded password
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            return invalidCredentials();
+        }
+
+        String token = jwtUtil.generateToken(
+                user.getUsername(),
+                user.getId(),
+                user.getEmail(),
+                user.getRole()
+        );
+
+        Map<String, String> body = new HashMap<>();
+        body.put("token", token);
+        body.put("role", user.getRole());
+        body.put("email", user.getEmail());
+
+        return ResponseEntity.ok(body);
     }
 
-    static class LoginRequest {
+    private ResponseEntity<Map<String, String>> invalidCredentials() {
+        Map<String, String> error = new HashMap<>();
+        error.put("error", "Invalid credentials");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
+    }
+
+    // simple DTO for request body
+    public static class LoginRequest {
         private String email;
         private String password;
 
