@@ -1,0 +1,11 @@
+// src/main/java/com/example/demo/service/DeviceProfileService.java
+package com.example.demo.service;
+
+import com.example.demo.entity.DeviceProfile;
+import java.util.Optional;
+
+public interface DeviceProfileService {
+    DeviceProfile registerDevice(DeviceProfile device);
+    Optional<DeviceProfile> findByDeviceId(String deviceId);
+    DeviceProfile updateTrustStatus(Long id, boolean isTrusted);
+}
