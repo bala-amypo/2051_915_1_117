@@ -29,12 +29,23 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/api/users/create").permitAll()
-                .requestMatchers("/api/servlet").permitAll()
+                // Public endpoints
+                .requestMatchers(
+                    "/api/auth/**",      // login, etc.
+                    "/api/users/**",     // user APIs open while developing
+                    "/simple",           // your SimpleStatusServlet
+                    "/swagger-ui.html",
+                    "/swagger-ui/**",
+                    "/v3/api-docs/**"
+                ).permitAll()
+                // Everything else requires JWT
                 .anyRequest().authenticated()
             )
-            .addFilterBefore(new JwtAuthenticationFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+            // JWT filter before UsernamePasswordAuthenticationFilter
+            .addFilterBefore(
+                new JwtAuthenticationFilter(jwtUtil),
+                UsernamePasswordAuthenticationFilter.class
+            );
 
         return http.build();
     }
