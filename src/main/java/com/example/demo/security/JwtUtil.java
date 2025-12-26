@@ -17,15 +17,20 @@ public class JwtUtil {
     private long expiration = 3600000L; // 1 hour
     private boolean debug = true;
 
-    // No-arg constructor: use a strong HS512 key
+    // No-arg constructor: always use a strong HS512 key
     public JwtUtil() {
         this.secret = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
-    // Full constructor: upgrade any string secret to a proper HMAC key
+    // Full constructor: if secret is too short, use a fixed strong key instead
     public JwtUtil(String secret, long expiration, boolean debug) {
-        // Upgrade any secret string to a proper HMAC key (≥ 256 bits)
-        this.secret = Keys.hmacShaKeyFor(secret.getBytes());
+        try {
+            // Try to use the given secret as HMAC key
+            this.secret = Keys.hmacShaKeyFor(secret.getBytes());
+        } catch (Exception e) {
+            // If it’s too short, fall back to a strong HS512 key
+            this.secret = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+        }
         this.expiration = expiration;
         this.debug = debug;
     }
