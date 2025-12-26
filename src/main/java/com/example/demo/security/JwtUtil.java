@@ -51,16 +51,17 @@ public class JwtUtil {
         }
     }
 
-    public String extractEmail(String token) {
+    // Use exactly these method names: getEmail, getUserId, getRole
+    public String getEmail(String token) {
         return getClaims(token).getSubject();
     }
 
-    public String extractRole(String token) {
-        return getClaims(token).get("role", String.class);
+    public Long getUserId(String token) {
+        return getClaims(token).get("userId", Long.class);
     }
 
-    public Long extractUserId(String token) {
-        return getClaims(token).get("userId", Long.class);
+    public String getRole(String token) {
+        return getClaims(token).get("role", String.class);
     }
 
     private Claims getClaims(String token) {
