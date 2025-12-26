@@ -11,8 +11,8 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    // ✅ Changed: long secret for HS512 (≥ 512 bits)
-    private String secret = "Y29tLmV4YW1wbGUuZGVtb19zZWNyZXRfa2V5X2Zvcl9IVzUxMiBtdXN0X2JlX2xvbmdfZW5vdWdoX2Zvcl9zZWN1cml0eQ==";
+    // ✅ Long secret string for HS512 (≥ 64 chars)
+    private String secret = "VeryLongSecretKeyForJWTThatIsAtLeast64CharactersLongAndSecureForHS512";
     private long expiration = 3600000L; // 1 hour
     private boolean debug = true;
 
