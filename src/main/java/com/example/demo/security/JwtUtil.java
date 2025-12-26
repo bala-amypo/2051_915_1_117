@@ -1,4 +1,3 @@
-// src/main/java/com/example/demo/security/JwtUtil.java
 package com.example.demo.security;
 
 import io.jsonwebtoken.Claims;
@@ -12,7 +11,8 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-    private String secret = "TestSecretKeyForJWT1234567890"; // default for tests
+    // ✅ Changed: long secret for HS512 (≥ 512 bits)
+    private String secret = "Y29tLmV4YW1wbGUuZGVtb19zZWNyZXRfa2V5X2Zvcl9IVzUxMiBtdXN0X2JlX2xvbmdfZW5vdWdoX2Zvcl9zZWN1cml0eQ==";
     private long expiration = 3600000L; // 1 hour
     private boolean debug = true;
 
@@ -41,7 +41,9 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            Jwts.parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             if (debug) {
