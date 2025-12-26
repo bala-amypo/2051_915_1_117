@@ -3,16 +3,18 @@ package com.example.demo.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
+import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
 
 @Component
 public class JwtUtil {
 
-    // ✅ Long secret string for HS512 (≥ 64 chars)
-    private String secret = "VeryLongSecretKeyForJWTThatIsAtLeast64CharactersLongAndSecureForHS512";
+    // Use a proper SecretKey for HS512 (≥ 512 bits)
+    private Key secret = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     private long expiration = 3600000L; // 1 hour
     private boolean debug = true;
 
@@ -22,7 +24,7 @@ public class JwtUtil {
 
     // Full constructor (used in real config)
     public JwtUtil(String secret, long expiration, boolean debug) {
-        this.secret = secret;
+        this.secret = Keys.hmacShaKeyFor(secret.getBytes());
         this.expiration = expiration;
         this.debug = debug;
     }
