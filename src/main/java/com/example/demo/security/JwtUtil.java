@@ -10,22 +10,21 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // Use a long secret key (≥ 64 chars) for HS512
+    // Long enough for HS512
     private String secret = "VeryLongSecretKeyForJWTThatIsAtLeast64CharactersLongAndSecureForHS512";
     private long expiration = 3600000L; // 1 hour
     private boolean debug = true;
 
-    // No-arg constructor (required by the test)
     public JwtUtil() {
     }
 
-    // Full constructor (used in the test)
     public JwtUtil(String secret, long expiration, boolean debug) {
         this.secret = secret;
         this.expiration = expiration;
         this.debug = debug;
     }
 
+    // Signature expected by tests
     public String generateToken(String email, String role, Long userId) {
         return Jwts.builder()
                 .setSubject(email)
@@ -51,7 +50,6 @@ public class JwtUtil {
         }
     }
 
-    // Use exactly these method names: getEmail, getUserId, getRole
     public String getEmail(String token) {
         return getClaims(token).getSubject();
     }
