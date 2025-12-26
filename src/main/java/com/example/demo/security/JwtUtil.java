@@ -1,20 +1,18 @@
+// src/main/java/com/example/demo/security/JwtUtil.java
 package com.example.demo.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
 
 @Component
 public class JwtUtil {
 
-    // Use a proper SecretKey for HS512 (≥ 512 bits)
-    private Key secret = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    private String secret = "TestSecretKeyForJWT1234567890"; // default for tests
     private long expiration = 3600000L; // 1 hour
     private boolean debug = true;
 
@@ -24,7 +22,7 @@ public class JwtUtil {
 
     // Full constructor (used in real config)
     public JwtUtil(String secret, long expiration, boolean debug) {
-        this.secret = Keys.hmacShaKeyFor(secret.getBytes());
+        this.secret = secret;
         this.expiration = expiration;
         this.debug = debug;
     }
@@ -43,9 +41,7 @@ public class JwtUtil {
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parser()
-                    .setSigningKey(secret)
-                    .parseClaimsJws(token);
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
             return true;
         } catch (Exception e) {
             if (debug) {
