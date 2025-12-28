@@ -1,4 +1,4 @@
-// src/main/java/com/example/demo/entity/DeviceProfile.java
+
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
@@ -26,7 +26,6 @@ public class DeviceProfile {
     @Column(name = "last_seen")
     private LocalDateTime lastSeen;
 
-    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 

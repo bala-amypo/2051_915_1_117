@@ -14,10 +14,9 @@ import java.util.function.Function;
 public class JwtUtil {
 
     private Key secret;
-    private long expiration = 3600000L; // 1 hour
+    private long expiration = 3600000L;
     private boolean debug = true;
 
-    // No-arg constructor: always use a strong HS512 key
     public JwtUtil() {
         this.secret = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }

@@ -1,4 +1,4 @@
-// src/main/java/com/example/demo/entity/PolicyRule.java
+
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
@@ -24,7 +24,6 @@ public class PolicyRule {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
