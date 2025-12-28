@@ -21,13 +21,10 @@ public class JwtUtil {
         this.secret = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
-    // Full constructor: if secret is too short, use a fixed strong key instead
     public JwtUtil(String secret, long expiration, boolean debug) {
         try {
-            // Try to use the given secret as HMAC key
             this.secret = Keys.hmacShaKeyFor(secret.getBytes());
         } catch (Exception e) {
-            // If it’s too short, fall back to a strong HS512 key
             this.secret = Keys.secretKeyFor(SignatureAlgorithm.HS512);
         }
         this.expiration = expiration;

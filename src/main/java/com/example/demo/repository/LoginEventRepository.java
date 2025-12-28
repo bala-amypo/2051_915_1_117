@@ -1,4 +1,4 @@
-// src/main/java/com/example/demo/repository/LoginEventRepository.java
+
 package com.example.demo.repository;
 
 import com.example.demo.entity.LoginEvent;
