@@ -1,4 +1,4 @@
-// src/main/java/com/example/demo/entity/UserAccount.java
+
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
@@ -25,7 +25,6 @@ public class UserAccount {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
