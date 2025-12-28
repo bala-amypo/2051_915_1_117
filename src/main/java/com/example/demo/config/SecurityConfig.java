@@ -1,4 +1,4 @@
-// src/main/java/com/example/demo/config/SecurityConfig.java
+
 package com.example.demo.config;
 
 import com.example.demo.security.JwtUtil;
@@ -26,15 +26,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            // No CSRF for stateless REST APIs
             .csrf(csrf -> csrf.disable())
-            // Stateless sessions (JWT style)
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
-            // URL authorization rules
+
             .authorizeHttpRequests(auth -> auth
-                // Public endpoints while developing
+                
                 .requestMatchers(
                     "/api/auth/**",
                     "/api/users/**",
@@ -46,10 +44,10 @@ public class SecurityConfig {
                     "/swagger-ui/**",
                     "/v3/api-docs/**"
                 ).permitAll()
-                // Everything else still requires authentication
+                
                 .anyRequest().authenticated()
             )
-            // JWT filter
+            
             .addFilterBefore(
                 new JwtAuthenticationFilter(jwtUtil),
                 UsernamePasswordAuthenticationFilter.class
