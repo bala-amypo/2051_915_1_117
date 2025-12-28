@@ -27,8 +27,6 @@ public class RuleEvaluationUtil {
         List<PolicyRule> activeRules = ruleRepo.findByActiveTrue();
 
         for (PolicyRule rule : activeRules) {
-            // Simple condition: if rule.conditionsJson contains "FAILED"
-            // and login status is FAILED, trigger a violation.
             if (event.getLoginStatus() != null
                     && "FAILED".equalsIgnoreCase(event.getLoginStatus())
                     && rule.getConditionsJson() != null
