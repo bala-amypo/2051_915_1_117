@@ -1,4 +1,4 @@
-// src/main/java/com/example/demo/controller/AuthController.java
+
 package com.example.demo.controller;
 
 import com.example.demo.entity.UserAccount;
@@ -39,7 +39,7 @@ public class AuthController {
 
         UserAccount user = userOpt.get();
 
-        // Compare raw password with encoded password
+        
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             return invalidCredentials();
         }
@@ -65,7 +65,6 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
-    // simple DTO for request body
     public static class LoginRequest {
         private String email;
         private String password;
